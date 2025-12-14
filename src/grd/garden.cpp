@@ -1,10 +1,20 @@
+// ================================================
+// 
+//	Project: Garden
+//	Description: Tool that tells you whether
+//	your vegetable garden is valid or not.
+// 
+//	Authors: The Kumor
+// 
+// ================================================
+
 // WinAPI
 #include <windows.h>
 
 // Garden
 #include <grd/application.h>
 
-#pragma warning(disable: 28251, justification: "Everything's ok :)")
+#pragma warning(disable: 28251)
 
 int WINAPI wWinMain(HINSTANCE instance, HINSTANCE prevInstance, LPWSTR cmdLine, int cmdShow)
 {
