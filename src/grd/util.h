@@ -2,6 +2,12 @@
 
 // STL
 #include <cstdint>
+#include <string>
+
+// WinAPI
+#include <windows.h>
+
+#define GRD_WINAPI_DEBUG_INFO 0
 
 namespace grd
 {
@@ -25,5 +31,7 @@ namespace grd
 			T y, Y;
 		};
 	};
+
+	DWORD CheckErrors(const std::wstring& info);
 
 }

@@ -10,7 +10,15 @@ namespace grd
 
 	int Application::Run()
 	{
-		MessageBoxW(nullptr, L"Hello, Garden!", L"Garden Application", MB_OK | MB_ICONINFORMATION);
+		MSG msg = { };
+
+		m_MainWindow.CreateControl<Button>(L"Hej!", { 256, 128 }, { 0, 0 });
+
+		while (GetMessage(&msg, nullptr, 0, 0))
+		{
+			TranslateMessage(&msg);
+			DispatchMessage(&msg);
+		}
 
 		return EXIT_SUCCESS;
 	}

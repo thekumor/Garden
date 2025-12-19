@@ -11,6 +11,7 @@
 #include <grd/util.h>
 #include <grd/base_class.h>
 #include <grd/window.h>
+#include <grd/controls.h>
 
 namespace grd
 {

@@ -14,10 +14,13 @@
 // Garden
 #include <grd/application.h>
 
+#define GRD_WINDOW_HEIGHT 900
+#define GRD_WINDOW_WIDTH 1280
+
 #pragma warning(disable: 28251)
 
 int WINAPI wWinMain(HINSTANCE instance, HINSTANCE prevInstance, LPWSTR cmdLine, int cmdShow)
 {
-	grd::Application app(L"Garden", grd::Vec2<std::int32_t>(640, 480), instance);
+	grd::Application app(L"Garden", grd::Vec2<std::int32_t>(GRD_WINDOW_WIDTH, GRD_WINDOW_HEIGHT), instance);
 	return app.Run();
 }
