@@ -1,3 +1,15 @@
+// ================================================
+// 
+//	Project: Garden
+// 
+//	File: window.h
+//	Desc: Window class definition.
+// 
+//	Modified: 2025/01/08 2:26 PM
+//	Authors: The Kumor
+// 
+// ================================================
+
 #pragma once
 
 // STL

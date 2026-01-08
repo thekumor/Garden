@@ -57,6 +57,9 @@ namespace grd
 				HDC hdc = BeginPaint(handle, &ps);
 				
 				FillRect(hdc, &ps.rcPaint, reinterpret_cast<HBRUSH>(COLOR_WINDOW + 3));
+				RECT rc;
+				GetWindowRect(handle, &rc);
+				DrawText(hdc, L"Hello, I'm a text :)\0", -1, &rc, DT_CENTER);
 
 				EndPaint(handle, &ps);
 			} break;

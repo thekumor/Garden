@@ -1,9 +1,12 @@
 // ================================================
 // 
 //	Project: Garden
-//	Description: Tool that tells you whether
+// 
+//	File: garden.cpp
+//	Desc: Tool that tells you whether
 //	your vegetable garden is valid or not.
 // 
+//	Modified: 2025/01/08 2:24 PM
 //	Authors: The Kumor
 // 
 // ================================================
