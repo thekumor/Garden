@@ -2,7 +2,7 @@
 // 
 //	Project: Garden
 // 
-//	File: src/window.h
+//	File: src/grd/window.h
 //	Desc: Window class definition.
 // 
 //	Modified: 2025/01/08 2:26 PM

@@ -2,7 +2,7 @@
 // 
 //	Project: Garden
 // 
-//	File: src/garden.cpp
+//	File: src/grd/garden.cpp
 //	Desc: Tool that tells you whether
 //	your vegetable garden is valid or not.
 // 
