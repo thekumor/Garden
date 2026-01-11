@@ -1,3 +1,15 @@
+// ================================================
+// 
+//	Project: Garden
+// 
+//	File: src/controls.cpp
+//	Desc: GUI Control class definitions
+// 
+//	Modified: 2025/01/08 8:22 PM
+//	Authors: The Kumor
+// 
+// ================================================
+
 #include "controls.h"
 
 namespace grd

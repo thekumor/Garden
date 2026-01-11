@@ -2,7 +2,7 @@
 // 
 //	Project: Garden
 // 
-//	File: application.h
+//	File: src/application.h
 //	Desc: Application class definition.
 // 
 //	Modified: 2025/01/08 2:27 PM
@@ -28,6 +28,9 @@
 namespace grd
 {
 
+	// ---------------------------------------------------
+	//	Handles application lifecycle.
+	// ---------------------------------------------------
 	class Application : public BaseClass
 	{
 	public:

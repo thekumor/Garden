@@ -1,3 +1,15 @@
+// ================================================
+// 
+//	Project: Garden
+// 
+//	File: src/window.cpp
+//	Desc: Window class definition.
+// 
+//	Modified: 2025/01/08 2:26 PM
+//	Authors: The Kumor
+// 
+// ================================================
+
 #include "window.h"
 
 namespace grd
@@ -57,9 +69,9 @@ namespace grd
 				HDC hdc = BeginPaint(handle, &ps);
 				
 				FillRect(hdc, &ps.rcPaint, reinterpret_cast<HBRUSH>(COLOR_WINDOW + 3));
-				RECT rc;
-				GetWindowRect(handle, &rc);
-				DrawText(hdc, L"Hello, I'm a text :)\0", -1, &rc, DT_CENTER);
+				//RECT rc;
+				//GetWindowRect(handle, &rc);
+				//DrawText(hdc, L"Hello, I'm a text :)\0", -1, &rc, DT_CENTER);
 
 				EndPaint(handle, &ps);
 			} break;

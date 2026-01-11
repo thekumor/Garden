@@ -2,7 +2,7 @@
 // 
 //	Project: Garden
 // 
-//	File: util.h
+//	File: src/util.h
 //	Desc: Utility functions and structures.
 // 
 //	Modified: 2025/01/08 2:26 PM
@@ -24,6 +24,9 @@
 namespace grd
 {
 
+	// ---------------------------------------------------
+	//	Contains 2D vector data.
+	// ---------------------------------------------------
 	template <typename T>
 	struct Vec2
 	{

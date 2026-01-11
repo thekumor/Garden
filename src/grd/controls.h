@@ -2,10 +2,10 @@
 // 
 //	Project: Garden
 // 
-//	File: controls.h
+//	File: src/controls.h
 //	Desc: GUI Control class definitions
 // 
-//	Modified: 2025/01/08 2:26 PM
+//	Modified: 2025/01/08 8:22 PM
 //	Authors: The Kumor
 // 
 // ================================================
@@ -25,6 +25,9 @@
 namespace grd
 {
 
+	// ---------------------------------------------------
+	//	Base class for all controls.
+	// ---------------------------------------------------
 	class Control : public BaseClass
 	{
 	public:
@@ -38,6 +41,9 @@ namespace grd
 		Vec2<std::int32_t> m_Size, m_Position;
 	};
 
+	// ---------------------------------------------------
+	//	Can be clicked to perform an action.
+	// ---------------------------------------------------
 	class Button : public Control
 	{
 	public:
@@ -46,6 +52,9 @@ namespace grd
 		~Button() = default;
 	};
 
+	// ---------------------------------------------------
+	//	On-screen text element.
+	// ---------------------------------------------------
 	class Text : public Control
 	{
 	public:

@@ -1,3 +1,15 @@
+// ================================================
+// 
+//	Project: Garden
+// 
+//	File: src/application.cpp
+//	Desc: Application class definition.
+// 
+//	Modified: 2025/01/08 2:27 PM
+//	Authors: The Kumor
+// 
+// ================================================
+
 #include "application.h"
 
 namespace grd
@@ -12,7 +24,11 @@ namespace grd
 	{
 		MSG msg = { };
 
-		m_MainWindow.CreateControl<Button>(L"Hej!", { 256, 128 }, { 0, 0 });
+		const std::int32_t c_ButtonSize = 96;
+
+		for (std::int32_t y = 0; y < 10; y++)
+			for (std::int32_t x = 0; x < 15; x++)
+				m_MainWindow.CreateControl<Button>(L"", { c_ButtonSize, c_ButtonSize }, { c_ButtonSize * x, c_ButtonSize * y });
 
 		while (GetMessage(&msg, nullptr, 0, 0))
 		{

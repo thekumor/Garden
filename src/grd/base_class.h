@@ -2,7 +2,7 @@
 // 
 //	Project: Garden
 // 
-//	File: base_class.h
+//	File: src/base_class.h
 //	Desc: Base class definition.
 // 
 //	Modified: 2025/01/08 2:26 PM
@@ -15,6 +15,9 @@
 namespace grd
 {
 
+	// ---------------------------------------------------
+	//	Empty base class for inheritance.
+	// ---------------------------------------------------
 	class BaseClass
 	{
 	public:

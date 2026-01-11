@@ -1,3 +1,15 @@
+// ================================================
+// 
+//	Project: Garden
+// 
+//	File: src/util.cpp
+//	Desc: Utility functions and structures.
+// 
+//	Modified: 2025/01/08 2:26 PM
+//	Authors: The Kumor
+// 
+// ================================================
+
 #include "util.h"
 
 namespace grd
