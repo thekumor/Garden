@@ -5,7 +5,7 @@
 //	File: src/grd/grd/controls.cpp
 //	Desc: GUI Control class definitions
 // 
-//	Modified: 2025/01/08 8:22 PM
+//	Modified: 2026/01/18 4:35 PM
 //	Authors: The Kumor
 // 
 // ================================================
@@ -18,6 +18,7 @@ namespace grd
 	Control::Control(const std::wstring& text, const Vec2<std::int32_t>& size, const Vec2<std::int32_t>& position)
 		: m_Text(text), m_Size(size), m_Position(position), m_Parent(nullptr)
 	{
+		m_Listener.Subscribe(&g_EventDispatcher);
 	}
 
 	Button::Button(const std::wstring& text, const Vec2<std::int32_t>& size, const Vec2<std::int32_t>& position, HWND parent)
@@ -37,6 +38,11 @@ namespace grd
 			0
 		);
 		CheckErrors(L"Button.Button.CreateWindow");
+
+		m_Listener.AddCallback(EventType::WindowResize, [](EventData ev)
+			{
+				OutputDebugStringA("Resize!\n");
+			});
 	}
 
 	Text::Text(const std::wstring& text, const Vec2<std::int32_t>& size, const Vec2<std::int32_t>& position, HWND parent)

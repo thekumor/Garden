@@ -5,7 +5,7 @@
 //	File: src/grd/window.cpp
 //	Desc: Window class definition.
 // 
-//	Modified: 2025/01/08 2:26 PM
+//	Modified: 2026/01/18 4:37 PM
 //	Authors: The Kumor
 // 
 // ================================================
@@ -69,11 +69,13 @@ namespace grd
 				HDC hdc = BeginPaint(handle, &ps);
 				
 				FillRect(hdc, &ps.rcPaint, reinterpret_cast<HBRUSH>(COLOR_WINDOW + 3));
-				//RECT rc;
-				//GetWindowRect(handle, &rc);
-				//DrawText(hdc, L"Hello, I'm a text :)\0", -1, &rc, DT_CENTER);
 
 				EndPaint(handle, &ps);
+			} break;
+
+			case WM_SIZE:
+			{
+				g_EventDispatcher.CallEvent(Event(EventType::WindowResize, nullptr));
 			} break;
 		}
 

@@ -5,7 +5,7 @@
 //	File: src/grd/base_class.h
 //	Desc: Base class definition.
 // 
-//	Modified: 2025/01/08 2:26 PM
+//	Modified: 2026/01/08 2:26 PM
 //	Authors: The Kumor
 // 
 // ================================================

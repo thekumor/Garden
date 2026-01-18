@@ -6,7 +6,7 @@
 //	Desc: Tool that tells you whether
 //	your vegetable garden is valid or not.
 // 
-//	Modified: 2025/01/08 2:24 PM
+//	Modified: 2026/01/18 4:01 PM
 //	Authors: The Kumor
 // 
 // ================================================
@@ -16,9 +16,12 @@
 
 // Garden
 #include <grd/application.h>
+#include <grd/events.h>
 
 #define GRD_WINDOW_HEIGHT 900
 #define GRD_WINDOW_WIDTH 1280
+
+grd::EventDispatcher grd::g_EventDispatcher;
 
 #pragma warning(disable: 28251)
 
