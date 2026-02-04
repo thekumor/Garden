@@ -6,7 +6,7 @@
 //	Desc: Event system dispatcher and listener,
 //	event types and event structure.
 // 
-//	Modified: 2026/01/18 4:30 PM
+//	Modified: 2026/02/02 4:14 PM
 //	Created: 2026/01/16 8:20 PM
 //	Authors: The Kumor
 // 
@@ -18,6 +18,10 @@
 #include <cstdint>
 #include <vector>
 #include <unordered_map>
+#include <functional>
+
+#define GRD_EVDATA_CAST(data, type) *reinterpret_cast<type*>(data)
+#define GRD_EVDATA_CREATE(value, type) reinterpret_cast<void*>(new type(value))
 
 namespace grd
 {
@@ -58,7 +62,7 @@ namespace grd
 		std::vector<EventListener*> m_Listeners;
 	};
 
-	using EventCallback = void(*)(EventData);
+	using EventCallback = std::function<void(EventData)>;
 
 	class EventListener
 	{

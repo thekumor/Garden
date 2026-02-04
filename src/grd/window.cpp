@@ -5,7 +5,7 @@
 //	File: src/grd/window.cpp
 //	Desc: Window class definition.
 // 
-//	Modified: 2026/01/18 4:37 PM
+//	Modified: 2026/02/04 5:39 PM
 //	Authors: The Kumor
 // 
 // ================================================
@@ -15,7 +15,7 @@
 namespace grd
 {
 
-	Window::Window(const std::wstring& title, const Vec2<std::int32_t>& size)
+	Window::Window(const std::wstring& title, const Vec2i& size)
 		: m_Title(title), m_Size(size)
 	{
 		static const wchar_t* className = L"Garden Window";
@@ -52,6 +52,8 @@ namespace grd
 
 		ShowWindow(m_Handle, SW_SHOW);
 		UpdateWindow(m_Handle);
+
+		g_WindowSizes[m_Handle] = size;
 	}
 
 	LRESULT Window::s_WindowProcedure(HWND handle, UINT msg, WPARAM wp, LPARAM lp)
@@ -67,15 +69,28 @@ namespace grd
 			{
 				PAINTSTRUCT ps;
 				HDC hdc = BeginPaint(handle, &ps);
-				
+
 				FillRect(hdc, &ps.rcPaint, reinterpret_cast<HBRUSH>(COLOR_WINDOW + 3));
 
 				EndPaint(handle, &ps);
 			} break;
 
+			case WM_EXITSIZEMOVE:
 			case WM_SIZE:
 			{
-				g_EventDispatcher.CallEvent(Event(EventType::WindowResize, nullptr));
+				if (msg == WM_SIZE && wp != SIZE_MAXIMIZED) break;
+
+				WORD size = static_cast<WORD>(lp);
+
+				RECT rc;
+				//GetClientRect(handle, &rc);
+				GetWindowRect(handle, &rc);
+				Vec2i newSize(rc.right - rc.left, rc.bottom - rc.top);
+
+				Vec2i originalSize = g_WindowSizes[handle];
+				std::vector<Vec2i> sizes = { newSize, originalSize };
+
+				g_EventDispatcher.CallEvent(Event(EventType::WindowResize, &sizes));
 			} break;
 		}
 

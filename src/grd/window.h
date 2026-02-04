@@ -34,12 +34,12 @@ namespace grd
 	class Window : public BaseClass
 	{
 	public:
-		Window(const std::wstring& title, const Vec2<std::int32_t>& size);
+		Window(const std::wstring& title, const Vec2i& size);
 		Window() = default;
 		~Window() = default;
 
 		template <typename T>
-		T* CreateControl(const std::wstring& text, const Vec2<std::int32_t>& size, const Vec2<std::int32_t>& position)
+		T* CreateControl(const std::wstring& text, const Vec2i& size, const Vec2i& position)
 		{
 			return static_cast<T*>(m_Controls.emplace_back(new T(text, size, position, m_Handle)));
 		}
@@ -50,7 +50,7 @@ namespace grd
 		WNDCLASSEXW m_WindowClass;
 		HWND m_Handle;
 		std::wstring m_Title;
-		Vec2<std::int32_t> m_Size;
+		Vec2i m_Size;
 		std::vector<Control*> m_Controls = { };
 	};
 

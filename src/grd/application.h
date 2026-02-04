@@ -5,7 +5,7 @@
 //	File: src/grd/application.h
 //	Desc: Application class definition.
 // 
-//	Modified: 2026/01/08 2:27 PM
+//	Modified: 2026/02/02 4:10 PM
 //	Authors: The Kumor
 // 
 // ================================================
@@ -34,7 +34,7 @@ namespace grd
 	class Application : public BaseClass
 	{
 	public:
-		Application(const std::wstring& title, const Vec2<std::int32_t>& size, HINSTANCE instance);
+		Application(const std::wstring& title, const Vec2i& size, HINSTANCE instance);
 		Application() = default;
 		~Application() = default;
 

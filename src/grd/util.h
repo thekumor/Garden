@@ -5,7 +5,7 @@
 //	File: src/grd/util.h
 //	Desc: Utility functions and structures.
 // 
-//	Modified: 2026/01/08 2:26 PM
+//	Modified: 2026/02/03 7:11 AM
 //	Authors: The Kumor
 // 
 // ================================================
@@ -15,6 +15,7 @@
 // STL
 #include <cstdint>
 #include <string>
+#include <unordered_map>
 
 // WinAPI
 #include <windows.h>
@@ -45,8 +46,42 @@ namespace grd
 		{
 			T y, Y;
 		};
+
+		Vec2<T> operator+(const Vec2<T>& other) const
+		{
+			return Vec2<T>(X + other.X, Y + other.Y);
+		}
+
+		Vec2<T> operator-(const Vec2<T>& other) const
+		{
+			return Vec2<T>(X - other.X, Y - other.Y);
+		}
+
+		Vec2<T> operator*(const Vec2<T>& other) const
+		{
+			return Vec2<T>(X * other.X, Y * other.Y);
+		}
+
+		Vec2<T> operator*(const T& scalar) const
+		{
+			return Vec2<T>(X * scalar, Y * scalar);
+		}
+
+		Vec2<T> operator/(const Vec2<T>& other) const
+		{
+			return Vec2<T>(X / other.X, Y / other.Y);
+		}
+
+		Vec2<T> operator/(const T& scalar) const
+		{
+			return Vec2<T>(X / scalar, Y / scalar);
+		}
 	};
 
+	typedef Vec2<std::int32_t> Vec2i;
+
 	DWORD CheckErrors(const std::wstring& info);
+
+	extern std::unordered_map<HWND, Vec2i> g_WindowSizes;
 
 }
