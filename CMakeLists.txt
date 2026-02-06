@@ -8,6 +8,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 file(GLOB gardenSrc
 	"${CMAKE_CURRENT_SOURCE_DIR}/src/grd/*.h"
 	"${CMAKE_CURRENT_SOURCE_DIR}/src/grd/*.cpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/src/grd/*.rc"
 )
 
 add_executable(${CMAKE_PROJECT_NAME} WIN32 ${gardenSrc})

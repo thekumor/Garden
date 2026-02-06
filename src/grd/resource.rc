@@ -1,0 +1,75 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include <winres.h>
+#include "resource.h"
+/////////////////////////////////////////////////////////////////////////////
+// English (United States) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_MENU1 MENU
+BEGIN
+    POPUP "Application"
+    BEGIN
+        POPUP "Size"
+        BEGIN
+            MENUITEM "32x32",                       ID_SIZE_32X32
+            MENUITEM "48x48",                       ID_SIZE_48X48
+            MENUITEM "64x64",                       ID_SIZE_64X64
+            MENUITEM "96x96",                       ID_SIZE_96X96
+        END
+        MENUITEM "Close",                       ID_APPLICATION_CLOSE
+    END
+    POPUP "About"
+    BEGIN
+        MENUITEM "Website",                     ID_ABOUT_WEBSITE
+    END
+END
+
+#endif    // English (United States) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

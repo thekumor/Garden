@@ -5,7 +5,7 @@
 //	File: src/grd/window.h
 //	Desc: Window class definition.
 // 
-//	Modified: 2026/01/18 4:37 PM
+//	Modified: 2026/02/06 2:19 PM
 //	Authors: The Kumor
 // 
 // ================================================
@@ -24,6 +24,7 @@
 #include <grd/controls.h>
 #include <grd/util.h>
 #include <grd/events.h>
+#include <grd/resource.h>
 
 namespace grd
 {
@@ -52,6 +53,23 @@ namespace grd
 		std::wstring m_Title;
 		Vec2i m_Size;
 		std::vector<Control*> m_Controls = { };
+	};
+
+	// ---------------------------------------------------
+	//	Camera for moving and zooming the view.
+	// ---------------------------------------------------
+	class Camera : public BaseClass
+	{
+	public:
+		Camera() = default;
+		~Camera() = default;
+
+		void Reset();
+		void Zoom(float factor);
+		void Move(const Vec2<float>& delta);
+
+	private:
+
 	};
 
 }

@@ -6,7 +6,7 @@
 //	Desc: Event system dispatcher and listener,
 //	event types and event structure.
 // 
-//	Modified: 2026/02/02 4:14 PM
+//	Modified: 2026/02/04 5:47 PM
 //	Created: 2026/01/16 8:20 PM
 //	Authors: The Kumor
 // 
@@ -21,7 +21,7 @@
 #include <functional>
 
 #define GRD_EVDATA_CAST(data, type) *reinterpret_cast<type*>(data)
-#define GRD_EVDATA_CREATE(value, type) reinterpret_cast<void*>(new type(value))
+#define GRD_EVDATA_CREATE(value, type) reinterpret_cast<void*>(&value)
 
 namespace grd
 {
@@ -35,7 +35,8 @@ namespace grd
 		None = 0,
 		WindowClose,
 		WindowResize,
-		KeyPressed
+		KeyPressed,
+		GridSizeChanged
 	};
 
 	using EventData = void*;

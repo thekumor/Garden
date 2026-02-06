@@ -5,7 +5,7 @@
 //	File: src/grd/util.h
 //	Desc: Utility functions and structures.
 // 
-//	Modified: 2026/02/03 7:11 AM
+//	Modified: 2026/02/06 1:54 PM
 //	Authors: The Kumor
 // 
 // ================================================
@@ -19,6 +19,9 @@
 
 // WinAPI
 #include <windows.h>
+
+#define GRD_WINDOW_HEIGHT 900
+#define GRD_WINDOW_WIDTH 1280
 
 #define GRD_WINAPI_DEBUG_INFO 0
 

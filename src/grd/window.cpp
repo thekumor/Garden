@@ -5,7 +5,7 @@
 //	File: src/grd/window.cpp
 //	Desc: Window class definition.
 // 
-//	Modified: 2026/02/04 5:39 PM
+//	Modified: 2026/02/06 2:27 PM
 //	Authors: The Kumor
 // 
 // ================================================
@@ -34,6 +34,7 @@ namespace grd
 		RegisterClassEx(&m_WindowClass);
 		CheckErrors(L"Window.Window.RegisterClassEx");
 
+		HMENU menuHandle = LoadMenuW(instance, MAKEINTRESOURCEW(IDR_MENU1));
 		m_Handle = CreateWindowEx(
 			0,
 			className,
@@ -44,7 +45,7 @@ namespace grd
 			size.x,
 			size.y,
 			nullptr,
-			nullptr,
+			menuHandle,
 			instance,
 			nullptr
 		);
@@ -92,9 +93,55 @@ namespace grd
 
 				g_EventDispatcher.CallEvent(Event(EventType::WindowResize, &sizes));
 			} break;
+
+			case WM_COMMAND:
+			{
+				switch (wp)
+				{
+					case ID_APPLICATION_CLOSE:
+					{
+						PostQuitMessage(0);
+					} break;
+
+					case ID_ABOUT_WEBSITE:
+					{
+						ShellExecute(
+							nullptr,
+							L"open",
+							L"https://thekumor.com",
+							nullptr,
+							nullptr,
+							SW_SHOWNORMAL
+						);
+					} break;
+
+					case ID_SIZE_32X32:
+					case ID_SIZE_48X48:
+					case ID_SIZE_64X64:
+					case ID_SIZE_96X96:
+					{
+						g_EventDispatcher.CallEvent(Event(EventType::GridSizeChanged, &wp));
+					} break;
+				}
+			} break;
 		}
 
 		return DefWindowProc(handle, msg, wp, lp);
+	}
+
+	void Camera::Reset()
+	{
+
+	}
+
+	void Camera::Zoom(float factor)
+	{
+
+	}
+
+	void Camera::Move(const Vec2<float>& delta)
+	{
+
 	}
 
 }
