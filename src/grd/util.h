@@ -5,7 +5,7 @@
 //	File: src/grd/util.h
 //	Desc: Utility functions and structures.
 // 
-//	Modified: 2026/02/06 1:54 PM
+//	Modified: 2026/02/09 11:44 AM
 //	Authors: The Kumor
 // 
 // ================================================
@@ -36,8 +36,7 @@ namespace grd
 	{
 		Vec2(T x, T y)
 			: X(x), Y(y)
-		{
-		}
+		{}
 		Vec2() = default;
 		~Vec2() = default;
 
@@ -79,6 +78,39 @@ namespace grd
 		{
 			return Vec2<T>(X / scalar, Y / scalar);
 		}
+	};
+
+	template <typename T>
+	class Handle
+	{
+	public:
+		Handle(T& val)
+			: m_Value(val), m_Valid(true)
+		{}
+
+		Handle() :
+			m_Valid(true)
+		{}
+		~Handle() = default;
+		
+		T& operator*()
+		{
+			return m_Value;
+		}
+
+		inline bool IsValid()
+		{
+			return m_Valid;
+		}
+
+		inline void SetInvalid()
+		{
+			m_Valid = false;
+		}
+
+	private:
+		T m_Value;
+		bool m_Valid;
 	};
 
 	typedef Vec2<std::int32_t> Vec2i;

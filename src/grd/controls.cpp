@@ -5,7 +5,7 @@
 //	File: src/grd/controls.cpp
 //	Desc: GUI Control class definitions
 // 
-//	Modified: 2026/02/03 10:27 AM
+//	Modified: 2026/02/09 2:41 PM
 //	Authors: The Kumor
 // 
 // ================================================
@@ -18,7 +18,18 @@ namespace grd
 	Control::Control(const std::wstring& text, const Vec2i& size, const Vec2i& position)
 		: m_Text(text), m_Size(size), m_Position(position), m_Parent(nullptr)
 	{
-		m_Listener.Subscribe(&g_EventDispatcher);
+		m_Listener = new EventListener;
+		g_EventDispatcher.PinListener(m_Listener);
+	}
+
+	Control::~Control()
+	{
+		auto* listener = g_EventDispatcher.GetListenerHandle(m_Listener);
+		
+		if(listener)
+			listener->SetInvalid();
+
+		delete m_Listener;
 	}
 
 	void Control::SetSize(const Vec2i& size)
@@ -47,6 +58,11 @@ namespace grd
 			SetWindowPos(m_Handle, nullptr, m_Position.x * delta.x, m_Position.y * delta.y, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
 	}
 
+	void Control::Close()
+	{
+		DestroyWindow(m_Handle);
+	}
+
 	Button::Button(const std::wstring& text, const Vec2i& size, const Vec2i& position, HWND parent)
 		: Control(text, size, position)
 	{
@@ -64,8 +80,8 @@ namespace grd
 			0
 		);
 		CheckErrors(L"Button.Button.CreateWindow");
-
-		m_Listener.AddCallback(EventType::WindowResize, [this](EventData ev)
+		
+		m_Listener->AddCallback(EventType::WindowResize, [this](EventData ev)
 			{
 				std::vector<Vec2i> sizes = GRD_EVDATA_CAST(ev, std::vector<Vec2i>);
 				

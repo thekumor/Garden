@@ -6,7 +6,7 @@
 //	Desc: Event system dispatcher and listener,
 //	event types and event structure.
 // 
-//	Modified: 2026/02/04 5:47 PM
+//	Modified: 2026/02/09 2:13 PM
 //	Created: 2026/01/16 8:20 PM
 //	Authors: The Kumor
 // 
@@ -20,6 +20,9 @@
 #include <unordered_map>
 #include <functional>
 
+// Garden
+#include <grd/util.h>
+
 #define GRD_EVDATA_CAST(data, type) *reinterpret_cast<type*>(data)
 #define GRD_EVDATA_CREATE(value, type) reinterpret_cast<void*>(&value)
 
@@ -27,7 +30,7 @@ namespace grd
 {
 	class EventListener;
 	class EventDispatcher;
-	
+
 	extern EventDispatcher g_EventDispatcher;
 
 	enum class EventType : std::uint8_t
@@ -57,10 +60,15 @@ namespace grd
 
 		EventDispatcher() = default;
 
+		Handle<EventListener*>* GetListenerHandle(EventListener* listener);
+		Handle<EventListener*> PinListener(EventListener* listener);
+		void UnpinInvalidListeners();
+		void PinWaitingListeners();
 		void CallEvent(Event ev);
 
 	private:
-		std::vector<EventListener*> m_Listeners;
+		std::vector<Handle<EventListener*>> m_Listeners;
+		std::vector<Handle<EventListener*>> m_WaitingListeners;
 	};
 
 	using EventCallback = std::function<void(EventData)>;
@@ -70,12 +78,10 @@ namespace grd
 	public:
 		EventListener() = default;
 
-		void Subscribe(EventDispatcher* dispatcher);
 		void AddCallback(EventType type, EventCallback callback);
 		void CallEvent(Event ev);
 
 	private:
-		EventDispatcher* m_Dispatcher = nullptr;
 		std::unordered_map<EventType, EventCallback> m_Callbacks;
 	};
 

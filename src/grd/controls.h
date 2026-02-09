@@ -5,7 +5,7 @@
 //	File: src/grd/controls.h
 //	Desc: GUI Control class definitions
 // 
-//	Modified: 2026/02/02 4:10 PM
+//	Modified: 2026/02/09 12:20 PM
 //	Authors: The Kumor
 // 
 // ================================================
@@ -34,7 +34,7 @@ namespace grd
 	public:
 		Control(const std::wstring& text, const Vec2i& size, const Vec2i& position);
 		Control() = default;
-		~Control() = default;
+		~Control();
 
 		inline Vec2i GetSize() const { return m_Size; }
 		inline Vec2i GetPosition() const { return m_Position; }
@@ -42,12 +42,13 @@ namespace grd
 		void SetPosition(const Vec2i& position);
 		void Resize(const Vec2<float> delta);
 		void Reposition(const Vec2<float> delta);
+		void Close();
 
 	protected:
 		HWND m_Handle, m_Parent;
 		std::wstring m_Text;
 		Vec2i m_Size, m_Position;
-		EventListener m_Listener;
+		EventListener* m_Listener;
 	};
 
 	// ---------------------------------------------------

@@ -5,7 +5,7 @@
 //	File: src/grd/window.h
 //	Desc: Window class definition.
 // 
-//	Modified: 2026/02/06 2:19 PM
+//	Modified: 2026/02/09 2:24 PM
 //	Authors: The Kumor
 // 
 // ================================================
@@ -32,7 +32,7 @@ namespace grd
 	// ---------------------------------------------------
 	//	Handles displaying elements.
 	// ---------------------------------------------------
-	class Window : public BaseClass
+	class Window : public Control
 	{
 	public:
 		Window(const std::wstring& title, const Vec2i& size);
@@ -47,11 +47,10 @@ namespace grd
 
 		static LRESULT s_WindowProcedure(HWND, UINT, WPARAM, LPARAM);
 
+		void ClearControls();
+
 	private:
 		WNDCLASSEXW m_WindowClass;
-		HWND m_Handle;
-		std::wstring m_Title;
-		Vec2i m_Size;
 		std::vector<Control*> m_Controls = { };
 	};
 

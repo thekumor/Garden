@@ -6,7 +6,7 @@
 //	Desc: Event system dispatcher and listener,
 //	event types and event structure.
 // 
-//	Modified: 2026/01/18 4:30 PM
+//	Modified: 2026/02/09 2:16 PM
 //	Created: 2026/01/16 8:20 PM
 //	Authors: The Kumor
 // 
@@ -19,16 +19,7 @@ namespace grd
 
 	Event::Event(EventType type, EventData data)
 		: m_Type(type), m_Data(data)
-	{
-	}
-
-	void EventListener::Subscribe(EventDispatcher* dispatcher)
-	{
-		m_Dispatcher = dispatcher;
-		
-		if (dispatcher)
-			dispatcher->m_Listeners.push_back(this);
-	}
+	{}
 
 	void EventListener::AddCallback(EventType type, EventCallback callback)
 	{
@@ -43,10 +34,43 @@ namespace grd
 			it->second(ev.m_Data);
 	}
 
+	Handle<EventListener*>* EventDispatcher::GetListenerHandle(EventListener* listener)
+	{
+		for (auto& handle : m_Listeners)
+			if (handle.IsValid() && *handle == listener)
+				return &handle;
+
+		return nullptr;
+	}
+
+	Handle<EventListener*> EventDispatcher::PinListener(EventListener* listener)
+	{
+		return m_WaitingListeners.emplace_back(Handle<EventListener*>(listener));
+	}
+
 	void EventDispatcher::CallEvent(Event ev)
 	{
-		for (EventListener* listener : m_Listeners)
-			listener->CallEvent(ev);
+		for (Handle<EventListener*> listener : m_Listeners)
+			if (listener.IsValid())
+				(*listener)->CallEvent(ev);
+	}
+
+	void EventDispatcher::UnpinInvalidListeners()
+	{
+		for (std::int32_t i = 0; i < m_Listeners.size(); i++)
+			if (!m_Listeners[i].IsValid())
+			{
+				m_Listeners.erase(m_Listeners.begin() + i);
+				i--;
+			}
+	}
+
+	void EventDispatcher::PinWaitingListeners()
+	{
+		for (Handle<EventListener*> listener : m_WaitingListeners)
+			m_Listeners.push_back(listener);
+		
+		m_WaitingListeners.clear();
 	}
 
 }

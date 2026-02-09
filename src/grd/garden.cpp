@@ -6,7 +6,7 @@
 //	Desc: Tool that tells you whether
 //	your vegetable garden is valid or not.
 // 
-//	Modified: 2026/02/06 1:54 PM
+//	Modified: 2026/02/09 11:40 AM
 //	Authors: The Kumor
 // 
 // ================================================
@@ -21,7 +21,9 @@
 
 // STL
 #include <unordered_map>
+#include <vector>
 
+// Global variables
 grd::EventDispatcher grd::g_EventDispatcher;
 std::unordered_map<HWND, grd::Vec2i> grd::g_WindowSizes;
 

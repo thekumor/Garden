@@ -5,7 +5,7 @@
 //	File: src/grd/util.cpp
 //	Desc: Utility functions and structures.
 // 
-//	Modified: 2026/01/08 2:26 PM
+//	Modified: 2026/02/09 11:44 AM
 //	Authors: The Kumor
 // 
 // ================================================
