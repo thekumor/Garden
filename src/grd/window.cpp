@@ -5,7 +5,7 @@
 //	File: src/grd/window.cpp
 //	Desc: Window class definition.
 // 
-//	Modified: 2026/02/09 2:42 PM
+//	Modified: 2026/02/10 2:26 PM
 //	Authors: The Kumor
 // 
 // ================================================
@@ -30,6 +30,7 @@ namespace grd
 		m_WindowClass.lpszClassName = className;
 		m_WindowClass.lpszMenuName = nullptr;
 		m_WindowClass.hCursor = LoadCursorW(nullptr, IDC_ARROW);
+		m_WindowClass.hIcon = LoadIconW(instance, MAKEINTRESOURCEW(IDI_ICON1));
 		m_WindowClass.lpfnWndProc = Window::s_WindowProcedure;
 
 		RegisterClassEx(&m_WindowClass);

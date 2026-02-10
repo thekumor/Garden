@@ -29,8 +29,10 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 )
 
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-	COMMAND ${CMAKE_COMMAND} -E echo "Copying Data Directory..."
+	COMMAND ${CMAKE_COMMAND} -E echo "Copying data and img directory..."
 	COMMAND ${CMAKE_COMMAND} -E copy_directory
 		${CMAKE_SOURCE_DIR}/data
 		$<TARGET_FILE_DIR:${PROJECT_NAME}>/data
 )
+
+file(COPY img DESTINATION .)

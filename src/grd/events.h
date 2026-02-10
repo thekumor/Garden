@@ -6,7 +6,7 @@
 //	Desc: Event system dispatcher and listener,
 //	event types and event structure.
 // 
-//	Modified: 2026/02/09 2:13 PM
+//	Modified: 2026/02/09 7:13 PM
 //	Created: 2026/01/16 8:20 PM
 //	Authors: The Kumor
 // 
@@ -31,6 +31,8 @@ namespace grd
 	class EventListener;
 	class EventDispatcher;
 
+	// Used as a global event dispatcher for the application.
+	// Note that dispatchers can be local too!
 	extern EventDispatcher g_EventDispatcher;
 
 	enum class EventType : std::uint8_t
@@ -44,6 +46,9 @@ namespace grd
 
 	using EventData = void*;
 
+	// ---------------------------------------------------
+	//	Represents an event with a type and data.
+	// ---------------------------------------------------
 	struct Event
 	{
 		Event(EventType type, EventData data);
@@ -53,6 +58,9 @@ namespace grd
 		EventData m_Data;
 	};
 
+	// ---------------------------------------------------
+	//	Handles dispatching events to listeners.
+	// ---------------------------------------------------
 	class EventDispatcher
 	{
 	public:
@@ -73,6 +81,9 @@ namespace grd
 
 	using EventCallback = std::function<void(EventData)>;
 
+	// ---------------------------------------------------
+	//	Handles listening for events and calling callbacks.
+	// ---------------------------------------------------
 	class EventListener
 	{
 	public:

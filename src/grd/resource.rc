@@ -1,7 +1,7 @@
 // Microsoft Visual C++ generated resource script.
 //
-#include <winres.h>
 #include "resource.h"
+#include <winres.h>
 /////////////////////////////////////////////////////////////////////////////
 // English (United States) resources
 
@@ -57,6 +57,16 @@ BEGIN
         MENUITEM "Website",                     ID_ABOUT_WEBSITE
     END
 END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_ICON1               ICON                    "D:\\Dev\\Garden\\img\\icon.ico"
 
 #endif    // English (United States) resources
 /////////////////////////////////////////////////////////////////////////////

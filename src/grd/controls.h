@@ -5,7 +5,7 @@
 //	File: src/grd/controls.h
 //	Desc: GUI Control class definitions
 // 
-//	Modified: 2026/02/09 12:20 PM
+//	Modified: 2026/02/10 9:23 AM
 //	Authors: The Kumor
 // 
 // ================================================
@@ -60,6 +60,9 @@ namespace grd
 		Button(const std::wstring& text, const Vec2i& size, const Vec2i& position, HWND parent);
 		Button() = default;
 		~Button() = default;
+
+		static WNDCLASSEXW s_ButtonClass;
+		static LRESULT s_WindowProcedure(HWND, UINT, WPARAM, LPARAM);
 	};
 
 	// ---------------------------------------------------

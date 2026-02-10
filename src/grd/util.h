@@ -5,7 +5,7 @@
 //	File: src/grd/util.h
 //	Desc: Utility functions and structures.
 // 
-//	Modified: 2026/02/09 11:44 AM
+//	Modified: 2026/02/09 7:13 PM
 //	Authors: The Kumor
 // 
 // ================================================
@@ -80,6 +80,10 @@ namespace grd
 		}
 	};
 
+	// ---------------------------------------------------
+	//	Handle for referencing values that may become
+	//	invalid.
+	// ---------------------------------------------------
 	template <typename T>
 	class Handle
 	{

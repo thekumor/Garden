@@ -5,7 +5,7 @@
 //	File: src/grd/controls.cpp
 //	Desc: GUI Control class definitions
 // 
-//	Modified: 2026/02/09 2:41 PM
+//	Modified: 2026/02/10 9:33 AM
 //	Authors: The Kumor
 // 
 // ================================================
@@ -25,8 +25,8 @@ namespace grd
 	Control::~Control()
 	{
 		auto* listener = g_EventDispatcher.GetListenerHandle(m_Listener);
-		
-		if(listener)
+
+		if (listener)
 			listener->SetInvalid();
 
 		delete m_Listener;
@@ -63,11 +63,30 @@ namespace grd
 		DestroyWindow(m_Handle);
 	}
 
+	WNDCLASSEXW Button::s_ButtonClass;
 	Button::Button(const std::wstring& text, const Vec2i& size, const Vec2i& position, HWND parent)
 		: Control(text, size, position)
 	{
+		static const wchar_t* className = L"Garden Field";
+		HINSTANCE instance = static_cast<HINSTANCE>(GetModuleHandle(nullptr));
+
+		if (s_ButtonClass.hInstance != instance)
+		{
+			s_ButtonClass = { 0 };
+			s_ButtonClass.cbClsExtra = 0;
+			s_ButtonClass.cbSize = sizeof(WNDCLASSEXW);
+			s_ButtonClass.hInstance = instance;
+			s_ButtonClass.lpszClassName = className;
+			s_ButtonClass.lpszMenuName = nullptr;
+			s_ButtonClass.hCursor = LoadCursorW(nullptr, IDC_HAND);
+			s_ButtonClass.lpfnWndProc = Button::s_WindowProcedure;
+
+			RegisterClassEx(&s_ButtonClass);
+			CheckErrors(L"Button.Button.RegisterClassEx");
+		}
+
 		m_Handle = CreateWindow(
-			L"Button",
+			className,
 			text.c_str(),
 			WS_VISIBLE | WS_CHILD,
 			position.x,
@@ -76,15 +95,15 @@ namespace grd
 			size.y,
 			parent,
 			nullptr,
-			reinterpret_cast<HINSTANCE>(GetModuleHandle(nullptr)),
+			instance,
 			0
 		);
 		CheckErrors(L"Button.Button.CreateWindow");
-		
+
 		m_Listener->AddCallback(EventType::WindowResize, [this](EventData ev)
 			{
 				std::vector<Vec2i> sizes = GRD_EVDATA_CAST(ev, std::vector<Vec2i>);
-				
+
 				Vec2i& newSize = sizes[0];
 				Vec2i& originalSize = sizes[1];
 				Vec2<float> delta(static_cast<float>(newSize.x) / originalSize.x, static_cast<float>(newSize.y) / originalSize.y);
@@ -93,6 +112,26 @@ namespace grd
 				Reposition(delta);
 			}
 		);
+	}
+
+	LRESULT Button::s_WindowProcedure(HWND handle, UINT msg, WPARAM wp, LPARAM lp)
+	{
+		switch (msg)
+		{
+			case WM_PAINT:
+			{
+				PAINTSTRUCT ps;
+				HBRUSH brush = CreateSolidBrush(RGB(255, 0, 0));
+				RECT rc;
+				GetClientRect(handle, &rc);
+
+				HDC hdc = BeginPaint(handle, &ps);
+				FrameRect(hdc, &rc, brush);
+				EndPaint(handle, &ps);
+			} break;
+		}
+
+		return DefWindowProc(handle, msg, wp, lp);
 	}
 
 	Text::Text(const std::wstring& text, const Vec2i& size, const Vec2i& position, HWND parent)
