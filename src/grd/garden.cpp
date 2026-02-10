@@ -6,7 +6,7 @@
 //	Desc: Tool that tells you whether
 //	your vegetable garden is valid or not.
 // 
-//	Modified: 2026/02/09 11:40 AM
+//	Modified: 2026/02/10 6:32 PM
 //	Authors: The Kumor
 // 
 // ================================================
@@ -14,14 +14,15 @@
 // WinAPI
 #include <windows.h>
 
+// STL
+#include <unordered_map>
+#include <vector>
+
 // Garden
 #include <grd/application.h>
 #include <grd/events.h>
 #include <grd/util.h>
-
-// STL
-#include <unordered_map>
-#include <vector>
+#include <grd/lua.h>
 
 // Global variables
 grd::EventDispatcher grd::g_EventDispatcher;
@@ -31,6 +32,8 @@ std::unordered_map<HWND, grd::Vec2i> grd::g_WindowSizes;
 
 int WINAPI wWinMain(HINSTANCE instance, HINSTANCE prevInstance, LPWSTR cmdLine, int cmdShow)
 {
+	grd::Lua lua;
+
 	grd::Application app(L"Garden", grd::Vec2i(GRD_WINDOW_WIDTH, GRD_WINDOW_HEIGHT), instance);
 	return app.Run();
 }
