@@ -6,7 +6,7 @@
 //	Desc: Tool that tells you whether
 //	your vegetable garden is valid or not.
 // 
-//	Modified: 2026/02/10 6:32 PM
+//	Modified: 2026/02/18 11:05 AM
 //	Authors: The Kumor
 // 
 // ================================================
@@ -33,6 +33,9 @@ std::unordered_map<HWND, grd::Vec2i> grd::g_WindowSizes;
 int WINAPI wWinMain(HINSTANCE instance, HINSTANCE prevInstance, LPWSTR cmdLine, int cmdShow)
 {
 	grd::Lua lua;
+	lua.DoFile("data/vegetables.lua");
+	std::vector<grd::LuaVariable> globalVars = lua.GetGlobalVariables();
+	std::vector<grd::KeyTable> carrot = lua.GetTables("veg_carrot");
 
 	grd::Application app(L"Garden", grd::Vec2i(GRD_WINDOW_WIDTH, GRD_WINDOW_HEIGHT), instance);
 	return app.Run();

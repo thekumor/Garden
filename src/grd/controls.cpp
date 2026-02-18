@@ -5,7 +5,7 @@
 //	File: src/grd/controls.cpp
 //	Desc: GUI Control class definitions
 // 
-//	Modified: 2026/02/10 9:33 AM
+//	Modified: 2026/02/18 12:09 PM
 //	Authors: The Kumor
 // 
 // ================================================
@@ -116,18 +116,41 @@ namespace grd
 
 	LRESULT Button::s_WindowProcedure(HWND handle, UINT msg, WPARAM wp, LPARAM lp)
 	{
+		static HBITMAP hBitmap;
+
 		switch (msg)
 		{
 			case WM_PAINT:
 			{
-				PAINTSTRUCT ps;
-				HBRUSH brush = CreateSolidBrush(RGB(255, 0, 0));
-				RECT rc;
-				GetClientRect(handle, &rc);
+				//PAINTSTRUCT ps;
+				//HBRUSH border = CreateSolidBrush(RGB(32, 32, 32));
+				//HBRUSH background = CreateSolidBrush(RGB(220, 220, 220));
+				//RECT rc;
+				//GetClientRect(handle, &rc);
 
+				//HDC hdc = BeginPaint(handle, &ps);
+				//FillRect(hdc, &rc, background);
+				//FrameRect(hdc, &rc, border);
+				//EndPaint(handle, &ps);
+
+				PAINTSTRUCT ps;
 				HDC hdc = BeginPaint(handle, &ps);
-				FrameRect(hdc, &rc, brush);
+				HDC memDC = CreateCompatibleDC(hdc);
+				HGDIOBJ old = SelectObject(memDC, hBitmap);
+
+				BITMAP bitmap;
+				GetObject(hBitmap, sizeof(bitmap), &bitmap);
+				BitBlt(hdc, 0, 0, bitmap.bmWidth, bitmap.bmHeight, memDC, 0, 0, SRCCOPY);
+				SelectObject(memDC, old);
+				DeleteDC(memDC);
+
 				EndPaint(handle, &ps);
+
+			} break;
+
+			case WM_CREATE:
+			{
+				hBitmap = (HBITMAP)LoadImageW(nullptr, L"D:\\Dev\\Garden\\img\\test.bmp", IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
 			} break;
 		}
 
