@@ -5,7 +5,7 @@
 //	File: src/grd/field.h
 //	Desc: Field and the way it behaves.
 // 
-//	Modified: 2026/02/21 8:35 AM
+//	Modified: 2026/02/21 10:11 AM
 //	Created: 2026/02/20 10:42 AM
 //	Authors: The Kumor
 // 
@@ -47,7 +47,7 @@ namespace grd
 		const wchar_t* className = L"Garden Field";
 		HINSTANCE instance = static_cast<HINSTANCE>(GetModuleHandle(nullptr));
 
-		if (s_FieldClass.hInstance == nullptr)
+		if (!s_FieldClass.hInstance)
 		{
 			s_FieldClass.cbSize = sizeof(WNDCLASSEXW);
 			s_FieldClass.hInstance = instance;
@@ -97,6 +97,15 @@ namespace grd
 		CheckErrors(L"Field.Field.CreateWindowW");
 
 		ShowWindow(m_Handle, SW_SHOW);
+
+		m_Listener->AddCallback(EventType::WindowResize, [this](EventData ev)
+			{
+				Vec2<float> delta = GRD_EVDATA_CAST(ev, Vec2<float>);
+
+				Resize(delta);
+				Reposition(delta);
+			}
+		);
 	}
 
 }

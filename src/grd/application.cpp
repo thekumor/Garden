@@ -40,7 +40,7 @@ namespace grd
 			if (k.Name.substr(0, 4) == "veg_")
 				vegs.push_back(lua.GetTables(k.Name.c_str()));
 
-		Field field({ 120, 120 }, { 0, 0 }, windowHandle);
+		Field field({ GRD_WINDOW_WIDTH, GRD_WINDOW_HEIGHT }, { 0, 0 }, windowHandle);
 
 		listener.AddCallback(EventType::GridSizeChanged, [&](EventData data)
 			{

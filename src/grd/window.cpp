@@ -5,7 +5,7 @@
 //	File: src/grd/window.cpp
 //	Desc: Window class definition.
 // 
-//	Modified: 2026/02/10 2:26 PM
+//	Modified: 2026/02/21 10:14 AM
 //	Authors: The Kumor
 // 
 // ================================================
@@ -15,6 +15,8 @@
 namespace grd
 {
 
+	WNDCLASSEXW Window::s_WindowClass = { 0 };
+
 	Window::Window(const std::wstring& title, const Vec2i& size)
 		: Control(title, size, { 0, 0 })
 	{
@@ -23,18 +25,20 @@ namespace grd
 
 		HINSTANCE instance = static_cast<HINSTANCE>(GetModuleHandle(nullptr));
 
-		m_WindowClass = { 0 };
-		m_WindowClass.cbClsExtra = 0;
-		m_WindowClass.cbSize = sizeof(WNDCLASSEXW);
-		m_WindowClass.hInstance = instance;
-		m_WindowClass.lpszClassName = className;
-		m_WindowClass.lpszMenuName = nullptr;
-		m_WindowClass.hCursor = LoadCursorW(nullptr, IDC_ARROW);
-		m_WindowClass.hIcon = LoadIconW(instance, MAKEINTRESOURCEW(IDI_ICON1));
-		m_WindowClass.lpfnWndProc = Window::s_WindowProcedure;
+		if (!s_WindowClass.hInstance)
+		{
+			s_WindowClass.cbClsExtra = 0;
+			s_WindowClass.cbSize = sizeof(WNDCLASSEXW);
+			s_WindowClass.hInstance = instance;
+			s_WindowClass.lpszClassName = className;
+			s_WindowClass.lpszMenuName = nullptr;
+			s_WindowClass.hCursor = LoadCursorW(nullptr, IDC_ARROW);
+			s_WindowClass.hIcon = LoadIconW(instance, MAKEINTRESOURCEW(IDI_ICON1));
+			s_WindowClass.lpfnWndProc = Window::s_WindowProcedure;
 
-		RegisterClassEx(&m_WindowClass);
-		CheckErrors(L"Window.Window.RegisterClassEx");
+			RegisterClassEx(&s_WindowClass);
+			CheckErrors(L"Window.Window.RegisterClassEx");
+		}
 
 		HMENU menuHandle = LoadMenuW(instance, MAKEINTRESOURCEW(IDR_MENU1));
 		m_Handle = CreateWindowEx(
@@ -83,17 +87,13 @@ namespace grd
 			{
 				if (msg == WM_SIZE && wp != SIZE_MAXIMIZED) break;
 
-				WORD size = static_cast<WORD>(lp);
-
 				RECT rc;
-				//GetClientRect(handle, &rc);
 				GetWindowRect(handle, &rc);
 				Vec2i newSize(rc.right - rc.left, rc.bottom - rc.top);
-
 				Vec2i originalSize = g_WindowSizes[handle];
-				std::vector<Vec2i> sizes = { newSize, originalSize };
+				Vec2<float> delta(static_cast<float>(newSize.x) / originalSize.x, static_cast<float>(newSize.y) / originalSize.y);
 
-				g_EventDispatcher.CallEvent(Event(EventType::WindowResize, &sizes));
+				g_EventDispatcher.CallEvent(Event(EventType::WindowResize, &delta));
 			} break;
 
 			case WM_COMMAND:

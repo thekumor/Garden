@@ -5,7 +5,7 @@
 //	File: src/grd/controls.cpp
 //	Desc: GUI Control class definitions
 // 
-//	Modified: 2026/02/20 10:30 AM
+//	Modified: 2026/02/21 10:05 AM
 //	Authors: The Kumor
 // 
 // ================================================
@@ -70,7 +70,7 @@ namespace grd
 		static const wchar_t* className = L"Garden Field";
 		HINSTANCE instance = static_cast<HINSTANCE>(GetModuleHandle(nullptr));
 
-		if (s_ButtonClass.hInstance != instance)
+		if (!s_ButtonClass.hInstance)
 		{
 			s_ButtonClass = { 0 };
 			s_ButtonClass.cbClsExtra = 0;
@@ -102,11 +102,7 @@ namespace grd
 
 		m_Listener->AddCallback(EventType::WindowResize, [this](EventData ev)
 			{
-				std::vector<Vec2i> sizes = GRD_EVDATA_CAST(ev, std::vector<Vec2i>);
-
-				Vec2i& newSize = sizes[0];
-				Vec2i& originalSize = sizes[1];
-				Vec2<float> delta(static_cast<float>(newSize.x) / originalSize.x, static_cast<float>(newSize.y) / originalSize.y);
+				Vec2<float> delta = GRD_EVDATA_CAST(ev, Vec2<float>);
 
 				Resize(delta);
 				Reposition(delta);

@@ -5,7 +5,7 @@
 //	File: src/grd/window.h
 //	Desc: Window class definition.
 // 
-//	Modified: 2026/02/20 10:52 AM
+//	Modified: 2026/02/21 10:13 AM
 //	Authors: The Kumor
 // 
 // ================================================
@@ -41,6 +41,8 @@ namespace grd
 
 		friend class Application;
 
+		static WNDCLASSEXW s_WindowClass;
+
 		template <typename T>
 		T* CreateControl(const std::wstring& text, const Vec2i& size, const Vec2i& position)
 		{
@@ -52,7 +54,6 @@ namespace grd
 		void ClearControls();
 
 	private:
-		WNDCLASSEXW m_WindowClass;
 		std::vector<Control*> m_Controls = { };
 	};
 
