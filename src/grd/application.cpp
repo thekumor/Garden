@@ -5,7 +5,7 @@
 //	File: src/grd/application.cpp
 //	Desc: Application class definition.
 // 
-//	Modified: 2026/02/09 2:22 PM
+//	Modified: 2026/02/21 8:27 AM
 //	Authors: The Kumor
 // 
 // ================================================
@@ -21,20 +21,26 @@ namespace grd
 
 	void RebuildGrid(Window& window, Vec2i buttonSize = Vec2i(64, 64))
 	{
-		window.SetSize({GRD_WINDOW_WIDTH, GRD_WINDOW_HEIGHT});
-
-		window.ClearControls();
-
-		for (std::int32_t y = 0; y < GRD_WINDOW_HEIGHT / buttonSize.y; y++)
-			for (std::int32_t x = 0; x < GRD_WINDOW_WIDTH / buttonSize.x; x++)
-				window.CreateControl<Button>(L"", { buttonSize.x, buttonSize.y }, { buttonSize.x * x, buttonSize.y * y });
+		window.SetSize({ GRD_WINDOW_WIDTH, GRD_WINDOW_HEIGHT });
 	}
 
 	int Application::Run()
 	{
+		HWND windowHandle = m_MainWindow.m_Handle;
 		MSG msg = { };
 		EventListener listener;
 		g_EventDispatcher.PinListener(&listener);
+
+		Lua lua;
+		lua.DoFile("data/vegetables.lua");
+		std::vector<LuaVariable> globals = lua.GetGlobalVariables();
+
+		std::vector<std::vector<KeyTable>> vegs = { };
+		for (auto& k : globals)
+			if (k.Name.substr(0, 4) == "veg_")
+				vegs.push_back(lua.GetTables(k.Name.c_str()));
+
+		Field field({ 120, 120 }, { 0, 0 }, windowHandle);
 
 		listener.AddCallback(EventType::GridSizeChanged, [&](EventData data)
 			{

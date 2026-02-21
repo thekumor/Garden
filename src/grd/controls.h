@@ -14,6 +14,7 @@
 
 // STL
 #include <string>
+#include <unordered_map>
 
 // WinAPI
 #include <windows.h>

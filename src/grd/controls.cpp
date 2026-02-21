@@ -5,7 +5,7 @@
 //	File: src/grd/controls.cpp
 //	Desc: GUI Control class definitions
 // 
-//	Modified: 2026/02/18 12:09 PM
+//	Modified: 2026/02/20 10:30 AM
 //	Authors: The Kumor
 // 
 // ================================================
@@ -116,7 +116,8 @@ namespace grd
 
 	LRESULT Button::s_WindowProcedure(HWND handle, UINT msg, WPARAM wp, LPARAM lp)
 	{
-		static HBITMAP hBitmap;
+		static std::unordered_map<LPCWSTR, HBITMAP> s_Bitmaps = {};
+		static LPCWSTR s_ImgPath = L"D:\\Dev\\Garden\\img\\test.bmp";
 
 		switch (msg)
 		{
@@ -133,16 +134,36 @@ namespace grd
 				//FrameRect(hdc, &rc, border);
 				//EndPaint(handle, &ps);
 
+				//HBITMAP hBitmap = s_Bitmaps[s_ImgPath];
+
+				//PAINTSTRUCT ps;
+				//HDC hdc = BeginPaint(handle, &ps);
+				//HDC memDC = CreateCompatibleDC(hdc);
+				//HGDIOBJ old = SelectObject(memDC, hBitmap);
+
+				//BITMAP bitmap;
+				//GetObject(hBitmap, sizeof(bitmap), &bitmap);
+				////BitBlt(hdc, 0, 0, bitmap.bmWidth, bitmap.bmHeight, memDC, 0, 0, SRCCOPY);
+				//StretchBlt(hdc, 0, 0, 64, 64, memDC, 0, 0, bitmap.bmWidth, bitmap.bmHeight, SRCCOPY);
+				//SelectObject(memDC, old);
+				//DeleteDC(memDC);
+
+				//EndPaint(handle, &ps);
+
 				PAINTSTRUCT ps;
 				HDC hdc = BeginPaint(handle, &ps);
-				HDC memDC = CreateCompatibleDC(hdc);
-				HGDIOBJ old = SelectObject(memDC, hBitmap);
+				static HBRUSH background = CreateSolidBrush(RGB(220, 220, 220));
+				static HBRUSH frame = CreateSolidBrush(RGB(20, 20, 20));
+				RECT rc;
+				GetClientRect(handle, &rc);
+				FillRect(hdc, &ps.rcPaint, background);
+				FrameRect(hdc, &rc, frame);
 
-				BITMAP bitmap;
-				GetObject(hBitmap, sizeof(bitmap), &bitmap);
-				BitBlt(hdc, 0, 0, bitmap.bmWidth, bitmap.bmHeight, memDC, 0, 0, SRCCOPY);
-				SelectObject(memDC, old);
-				DeleteDC(memDC);
+				// TODO: Make it center vertically
+				LPWSTR text = nullptr;
+				std::int32_t length = GetWindowTextLengthW(handle);
+				GetWindowTextW(handle, text, length);
+				DrawTextW(hdc, L"Test", -1, &rc, DT_VCENTER | DT_CENTER);
 
 				EndPaint(handle, &ps);
 
@@ -150,7 +171,11 @@ namespace grd
 
 			case WM_CREATE:
 			{
-				hBitmap = (HBITMAP)LoadImageW(nullptr, L"D:\\Dev\\Garden\\img\\test.bmp", IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
+				auto it = s_Bitmaps.find(s_ImgPath);
+				if (it != s_Bitmaps.end()) break;
+
+				s_Bitmaps[s_ImgPath] = reinterpret_cast<HBITMAP>(LoadImageW(nullptr, s_ImgPath, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE));
+				CheckErrors(L"Button.s_WindowProcedure.LoadImageW");
 			} break;
 		}
 

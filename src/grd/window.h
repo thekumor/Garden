@@ -5,7 +5,7 @@
 //	File: src/grd/window.h
 //	Desc: Window class definition.
 // 
-//	Modified: 2026/02/09 2:24 PM
+//	Modified: 2026/02/20 10:52 AM
 //	Authors: The Kumor
 // 
 // ================================================
@@ -38,6 +38,8 @@ namespace grd
 		Window(const std::wstring& title, const Vec2i& size);
 		Window() = default;
 		~Window() = default;
+
+		friend class Application;
 
 		template <typename T>
 		T* CreateControl(const std::wstring& text, const Vec2i& size, const Vec2i& position)
