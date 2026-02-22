@@ -5,7 +5,7 @@
 //	File: src/grd/field.h
 //	Desc: Field and the way it behaves.
 // 
-//	Modified: 2026/02/21 10:11 AM
+//	Modified: 2026/02/22 10:44 AM
 //	Created: 2026/02/20 10:42 AM
 //	Authors: The Kumor
 // 
@@ -16,6 +16,26 @@
 namespace grd
 {
 
+	static std::vector<POINT> s_Points = {};
+
+	static void PaintField(HWND handle, HDC hdc)
+	{
+		static HBRUSH s_FieldBgr = CreateSolidBrush(RGB(128, 128, 128));
+		static HBRUSH s_Black = CreateSolidBrush(RGB(0, 0, 0));
+
+		for (auto& point : s_Points)
+		{
+			RECT subrc;
+			subrc.left = point.x;
+			subrc.top = point.y;
+			subrc.right = subrc.left + 64;
+			subrc.bottom = subrc.top + 64;
+
+			FillRect(hdc, &subrc, s_FieldBgr);
+			FrameRect(hdc, &subrc, s_Black);
+		}
+	}
+
 	WNDCLASSEXW Field::s_FieldClass = { 0 };
 
 	LRESULT Field::s_WindowProcedure(HWND handle, UINT msg, WPARAM wp, LPARAM lp)
@@ -24,15 +44,35 @@ namespace grd
 		{
 			case WM_PAINT:
 			{
+				static HBRUSH s_Background = CreateSolidBrush(RGB(0, 100, 0));
 				PAINTSTRUCT ps;
 				RECT rc;
 				GetClientRect(handle, &rc);
-				static HBRUSH background = CreateSolidBrush(RGB(0, 100, 0));
+
 				HDC hdc = BeginPaint(handle, &ps);
-
-				FillRect(hdc, &rc, background);
-
+				FillRect(hdc, &rc, s_Background);
+				g_EventDispatcher.CallEventQ(Event(EventType::Draw, &hdc), handle);
 				EndPaint(handle, &ps);
+			} break;
+
+			case WM_LBUTTONDOWN:
+			{
+				RECT rc;
+				POINT cursorPos;
+				GetCursorPos(&cursorPos);
+				GetWindowRect(handle, &rc);
+
+				cursorPos.x -= rc.left;
+				cursorPos.y -= rc.top;
+
+				RECT paintRegion;
+				paintRegion.left = cursorPos.x;
+				paintRegion.top = cursorPos.y;
+				paintRegion.right = paintRegion.left + 64;
+				paintRegion.bottom = paintRegion.top + 64;
+
+				s_Points.push_back(cursorPos);
+				InvalidateRect(handle, &paintRegion, TRUE);
 			} break;
 		}
 
@@ -52,6 +92,7 @@ namespace grd
 			s_FieldClass.cbSize = sizeof(WNDCLASSEXW);
 			s_FieldClass.hInstance = instance;
 			s_FieldClass.lpszClassName = className;
+			s_FieldClass.hCursor = LoadCursorW(nullptr, IDC_ARROW);
 			s_FieldClass.lpfnWndProc = Field::s_WindowProcedure;
 
 			RegisterClassExW(&s_FieldClass);
@@ -106,6 +147,14 @@ namespace grd
 				Reposition(delta);
 			}
 		);
+
+		m_Listener->AddCallback(EventType::Draw, [this](EventData ev)
+			{
+				HDC hdc = GRD_EVDATA_CAST(ev, HDC);
+				PaintField(nullptr, hdc);
+			});
+
+		m_Listener->SetQualifier(m_Handle);
 	}
 
 }

@@ -6,7 +6,7 @@
 //	Desc: Event system dispatcher and listener,
 //	event types and event structure.
 // 
-//	Modified: 2026/02/09 7:13 PM
+//	Modified: 2026/02/22 10:35 AM
 //	Created: 2026/01/16 8:20 PM
 //	Authors: The Kumor
 // 
@@ -31,6 +31,8 @@ namespace grd
 	class EventListener;
 	class EventDispatcher;
 
+	typedef void* event_qualifier;
+
 	// Used as a global event dispatcher for the application.
 	// Note that dispatchers can be local too!
 	extern EventDispatcher g_EventDispatcher;
@@ -41,7 +43,8 @@ namespace grd
 		WindowClose,
 		WindowResize,
 		KeyPressed,
-		GridSizeChanged
+		GridSizeChanged,
+		Draw
 	};
 
 	using EventData = void*;
@@ -73,6 +76,7 @@ namespace grd
 		void UnpinInvalidListeners();
 		void PinWaitingListeners();
 		void CallEvent(Event ev);
+		void CallEventQ(Event ev, event_qualifier q);
 
 	private:
 		std::vector<Handle<EventListener*>> m_Listeners;
@@ -87,13 +91,16 @@ namespace grd
 	class EventListener
 	{
 	public:
-		EventListener() = default;
+		EventListener();
 
+		inline const event_qualifier GetQualifier() const { return m_Qualifier; }
 		void AddCallback(EventType type, EventCallback callback);
 		void CallEvent(Event ev);
+		void SetQualifier(event_qualifier q);
 
 	private:
 		std::unordered_map<EventType, EventCallback> m_Callbacks;
+		event_qualifier m_Qualifier;
 	};
 
 }

@@ -5,7 +5,7 @@
 //	File: src/grd/window.h
 //	Desc: Window class definition.
 // 
-//	Modified: 2026/02/21 10:13 AM
+//	Modified: 2026/02/21 6:34 PM
 //	Authors: The Kumor
 // 
 // ================================================
@@ -52,6 +52,7 @@ namespace grd
 		static LRESULT s_WindowProcedure(HWND, UINT, WPARAM, LPARAM);
 
 		void ClearControls();
+		void ForceRedraw();
 
 	private:
 		std::vector<Control*> m_Controls = { };

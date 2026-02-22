@@ -5,7 +5,7 @@
 //	File: src/grd/controls.cpp
 //	Desc: GUI Control class definitions
 // 
-//	Modified: 2026/02/21 10:05 AM
+//	Modified: 2026/02/22 11:02 AM
 //	Authors: The Kumor
 // 
 // ================================================
@@ -16,21 +16,12 @@ namespace grd
 {
 
 	Control::Control(const std::wstring& text, const Vec2i& size, const Vec2i& position)
-		: m_Text(text), m_Size(size), m_Position(position), m_Parent(nullptr)
-	{
-		m_Listener = new EventListener;
-		g_EventDispatcher.PinListener(m_Listener);
-	}
+		: m_Text(text), m_Size(size), m_Position(position), m_Parent(nullptr), m_Handle(nullptr)
+	{}
 
-	Control::~Control()
-	{
-		auto* listener = g_EventDispatcher.GetListenerHandle(m_Listener);
-
-		if (listener)
-			listener->SetInvalid();
-
-		delete m_Listener;
-	}
+	Control::Control()
+		: m_Text(L""), m_Size(0, 0), m_Position(0, 0), m_Parent(nullptr), m_Handle(nullptr)
+	{}
 
 	void Control::SetSize(const Vec2i& size)
 	{
@@ -49,13 +40,29 @@ namespace grd
 	void Control::Resize(const Vec2<float> delta)
 	{
 		if (m_Handle)
-			SetWindowPos(m_Handle, nullptr, 0, 0, m_Size.x * delta.x, m_Size.y * delta.y, SWP_NOMOVE | SWP_NOZORDER);
+			SetWindowPos(
+				m_Handle,
+				nullptr,
+				0,
+				0,
+				static_cast<std::int32_t>(m_Size.x * delta.x),
+				static_cast<std::int32_t>(m_Size.y * delta.y),
+				SWP_NOMOVE | SWP_NOZORDER
+			);
 	}
 
 	void Control::Reposition(const Vec2<float> delta)
 	{
 		if (m_Handle)
-			SetWindowPos(m_Handle, nullptr, m_Position.x * delta.x, m_Position.y * delta.y, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
+			SetWindowPos(
+				m_Handle,
+				nullptr,
+				static_cast<std::int32_t>(m_Position.x * delta.x),
+				static_cast<std::int32_t>(m_Position.y * delta.y),
+				0,
+				0,
+				SWP_NOSIZE | SWP_NOZORDER
+			);
 	}
 
 	void Control::Close()
@@ -108,6 +115,8 @@ namespace grd
 				Reposition(delta);
 			}
 		);
+
+		m_Listener->SetQualifier(m_Handle);
 	}
 
 	LRESULT Button::s_WindowProcedure(HWND handle, UINT msg, WPARAM wp, LPARAM lp)
@@ -158,9 +167,12 @@ namespace grd
 				// TODO: Make it center vertically
 				LPWSTR text = nullptr;
 				std::int32_t length = GetWindowTextLengthW(handle);
-				GetWindowTextW(handle, text, length);
-				DrawTextW(hdc, L"Test", -1, &rc, DT_VCENTER | DT_CENTER);
-
+				if (length != 0)
+				{
+#pragma warning(disable: 6387)
+					GetWindowTextW(handle, text, length);
+					DrawTextW(hdc, L"Test", -1, &rc, DT_VCENTER | DT_CENTER);
+				}
 				EndPaint(handle, &ps);
 
 			} break;
@@ -194,6 +206,8 @@ namespace grd
 			0
 		);
 		CheckErrors(L"Text.Text.CreateWindow");
+
+		m_Listener->SetQualifier(m_Handle);
 	}
 
 }

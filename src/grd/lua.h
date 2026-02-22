@@ -5,7 +5,7 @@
 //	File: src/grd/lua.h
 //	Desc: Lua bindings for Garden.
 // 
-//	Modified: 2026/02/18 10:53 AM
+//	Modified: 2026/02/22 11:03 AM
 //	Created: 2026/02/10 6:29 PM
 //	Authors: The Kumor
 // 
@@ -50,7 +50,7 @@ namespace grd
 	{
 		std::string Name;
 		std::string Value;
-		LuaType Type;
+		LuaType Type = LuaType::None;
 	};
 	
 	// ---------------------------------------------------

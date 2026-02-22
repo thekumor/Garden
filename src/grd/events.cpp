@@ -6,7 +6,7 @@
 //	Desc: Event system dispatcher and listener,
 //	event types and event structure.
 // 
-//	Modified: 2026/02/09 2:16 PM
+//	Modified: 2026/02/22 10:55 AM
 //	Created: 2026/01/16 8:20 PM
 //	Authors: The Kumor
 // 
@@ -21,6 +21,10 @@ namespace grd
 		: m_Type(type), m_Data(data)
 	{}
 
+	EventListener::EventListener()
+		: m_Qualifier(nullptr)
+	{}
+
 	void EventListener::AddCallback(EventType type, EventCallback callback)
 	{
 		m_Callbacks[type] = callback;
@@ -32,6 +36,11 @@ namespace grd
 
 		if (it != m_Callbacks.end())
 			it->second(ev.m_Data);
+	}
+
+	void EventListener::SetQualifier(event_qualifier q)
+	{
+		m_Qualifier = q;
 	}
 
 	Handle<EventListener*>* EventDispatcher::GetListenerHandle(EventListener* listener)
@@ -53,6 +62,19 @@ namespace grd
 		for (Handle<EventListener*> listener : m_Listeners)
 			if (listener.IsValid())
 				(*listener)->CallEvent(ev);
+	}
+
+	void EventDispatcher::CallEventQ(Event ev, event_qualifier q)
+	{
+		for (Handle<EventListener*> listener : m_Listeners)
+			if (listener.IsValid() && (*listener)->GetQualifier() == q)
+			{
+				(*listener)->CallEvent(ev);
+
+				// Now, it doesn't necessairly have to happen, but for performance
+				// concerns we just let go given we usually use HWND which are unique.
+				return;
+			}
 	}
 
 	void EventDispatcher::UnpinInvalidListeners()

@@ -22,6 +22,7 @@ namespace grd
 	void RebuildGrid(Window& window, Vec2i buttonSize = Vec2i(64, 64))
 	{
 		window.SetSize({ GRD_WINDOW_WIDTH, GRD_WINDOW_HEIGHT });
+		window.ForceRedraw();
 	}
 
 	int Application::Run()

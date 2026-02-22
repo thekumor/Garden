@@ -5,12 +5,15 @@
 //	File: src/grd/base_class.h
 //	Desc: Base class definition.
 // 
-//	Modified: 2026/01/08 2:26 PM
+//	Modified: 2026/02/22 10:43 AM
 //	Authors: The Kumor
 // 
 // ================================================
 
 #pragma once
+
+// Garden
+#include <grd/events.h>
 
 namespace grd
 {
@@ -21,8 +24,11 @@ namespace grd
 	class BaseClass
 	{
 	public:
-		BaseClass() = default;
-		~BaseClass() = default;
+		BaseClass();
+		~BaseClass();
+
+	protected:
+		EventListener* m_Listener;
 	};
 
 }

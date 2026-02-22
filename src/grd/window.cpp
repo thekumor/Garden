@@ -5,7 +5,7 @@
 //	File: src/grd/window.cpp
 //	Desc: Window class definition.
 // 
-//	Modified: 2026/02/21 10:14 AM
+//	Modified: 2026/02/21 6:34 PM
 //	Authors: The Kumor
 // 
 // ================================================
@@ -20,7 +20,6 @@ namespace grd
 	Window::Window(const std::wstring& title, const Vec2i& size)
 		: Control(title, size, { 0, 0 })
 	{
-
 		static const wchar_t* className = L"Garden Window";
 
 		HINSTANCE instance = static_cast<HINSTANCE>(GetModuleHandle(nullptr));
@@ -140,6 +139,11 @@ namespace grd
 		}
 
 		m_Controls.clear();
+	}
+
+	void Window::ForceRedraw()
+	{
+		InvalidateRect(m_Handle, 0, TRUE);
 	}
 
 	void Camera::Reset()
