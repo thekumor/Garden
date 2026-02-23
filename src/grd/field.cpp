@@ -5,7 +5,7 @@
 //	File: src/grd/field.h
 //	Desc: Field and the way it behaves.
 // 
-//	Modified: 2026/02/22 10:44 AM
+//	Modified: 2026/02/22 11:22 AM
 //	Created: 2026/02/20 10:42 AM
 //	Authors: The Kumor
 // 
@@ -65,6 +65,9 @@ namespace grd
 				cursorPos.x -= rc.left;
 				cursorPos.y -= rc.top;
 
+				cursorPos.x -= cursorPos.x % 64;
+				cursorPos.y -= cursorPos.y % 64;
+
 				RECT paintRegion;
 				paintRegion.left = cursorPos.x;
 				paintRegion.top = cursorPos.y;
@@ -78,8 +81,6 @@ namespace grd
 
 		return DefWindowProcW(handle, msg, wp, lp);
 	}
-
-	HBITMAP Field::ms_Bitmap = nullptr;
 
 	Field::Field(const Vec2i& size, const Vec2i& position, HWND parent)
 		: Control(L"", size, position)
@@ -97,29 +98,6 @@ namespace grd
 
 			RegisterClassExW(&s_FieldClass);
 			CheckErrors(L"Field.Field.RegisterClassExW");
-		}
-
-		// TODO: Change this path!!
-		m_ImageData = stbi_load("D:\\Dev\\Garden\\img\\vegetables\\transparent.png", &m_ImageWidth, &m_ImageHeight, &m_ImageChannels, 4);
-		if (!m_ImageData)
-		{
-			MessageBoxW(nullptr, L"Failed to load field image", L"File load error", IDOK);
-			return;
-		}
-
-		// Switch to BGRA
-		for (std::int32_t i = 0; i < m_ImageWidth * m_ImageHeight; i++)
-		{
-			unsigned char* pixel = m_ImageData + i * 4;
-
-			unsigned char r = pixel[0];
-			unsigned char g = pixel[1];
-			unsigned char b = pixel[2];
-			unsigned char a = pixel[3];
-
-			pixel[0] = (b * a) / 255;
-			pixel[1] = (g * a) / 255;
-			pixel[2] = (r * a) / 255;
 		}
 
 		m_Handle = CreateWindowW(

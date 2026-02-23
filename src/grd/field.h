@@ -5,7 +5,7 @@
 //	File: src/grd/field.h
 //	Desc: Field and the way it behaves.
 // 
-//	Modified: 2026/02/22 10:00 AM
+//	Modified: 2026/02/23 10:48 AM
 //	Created: 2026/02/20 10:35 AM
 //	Authors: The Kumor
 // 
@@ -17,9 +17,6 @@
 #include <grd/controls.h>
 #include <grd/util.h>
 #include <grd/events.h>
-
-// stb
-#include <stb/stb_image.h>
 
 // WinAPI
 #include <windows.h>
@@ -37,12 +34,6 @@ namespace grd
 		static WNDCLASSEXW s_FieldClass;
 
 		static LRESULT s_WindowProcedure(HWND, UINT, WPARAM, LPARAM);
-
-	private:
-		static HBITMAP ms_Bitmap;
-
-		unsigned char* m_ImageData;
-		int m_ImageWidth, m_ImageHeight, m_ImageChannels;
 	};
 
 }

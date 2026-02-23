@@ -5,7 +5,7 @@
 //	File: src/grd/lua.cpp
 //	Desc: Lua bindings for Garden.
 // 
-//	Modified: 2026/02/18 11:08 AM
+//	Modified: 2026/02/23 8:55 AM
 //	Created: 2026/02/10 6:31 PM
 //	Authors: The Kumor
 // 
@@ -77,6 +77,9 @@ namespace grd
 		CheckVariable(variable);
 		lua_pop(m_State, 1);
 
+#if GRD_LUA_ENABLE_CACHE
+		m_CachedVariables[name] = variable;
+#endif
 		return variable;
 	}
 
@@ -110,6 +113,9 @@ namespace grd
 
 		lua_pop(m_State, 1);
 
+#if GRD_LUA_ENABLE_CACHE
+		m_CachedTables[name] = variables;
+#endif
 		return variables;
 	}
 
@@ -163,8 +169,40 @@ namespace grd
 			lua_pop(m_State, 1);
 		}
 
+#if GRD_LUA_ENABLE_CACHE
+		m_CachedComplexTables[name] = keyTables;
+#endif
 		return keyTables;
 	}
+
+#if GRD_LUA_ENABLE_CACHE
+	const std::vector<grd::LuaVariable>* Lua::GetCachedTable(const std::string& name) const
+	{
+		std::unordered_map<std::string, std::vector<LuaVariable>>::const_iterator it = m_CachedTables.find(name);
+		if (it == m_CachedTables.end())
+			return nullptr;
+
+		return &m_CachedTables.at(name);
+	}
+
+	const std::vector<grd::KeyTable>* Lua::GetCachedComplexTable(const std::string& name) const
+	{
+		std::unordered_map<std::string, std::vector<KeyTable>>::const_iterator it = m_CachedComplexTables.find(name);
+		if (it == m_CachedComplexTables.end())
+			return nullptr;
+
+		return &m_CachedComplexTables.at(name);
+	}
+
+	const grd::LuaVariable* Lua::GetCachedVariable(const std::string& name) const
+	{
+		std::unordered_map<std::string, LuaVariable>::const_iterator it = m_CachedVariables.find(name);
+		if (it == m_CachedVariables.end())
+			return nullptr;
+
+		return &m_CachedVariables.at(name);
+	}
+#endif
 
 	std::vector<LuaVariable> Lua::GetGlobalVariables()
 	{

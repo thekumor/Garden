@@ -29,6 +29,7 @@ set_target_properties(luajit PROPERTIES
 	INTERAFCE_INCLUDE_DIRECTORIES "${LUAROOT}/include/"
 )
 
+target_link_libraries(${PROJECT_NAME} PRIVATE Msimg32)
 target_link_libraries(${PROJECT_NAME} PRIVATE luajit)
 target_compile_definitions(${PROJECT_NAME} PRIVATE LUA_BUILD_AS_DLL)
 
@@ -48,9 +49,16 @@ add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
 )
 
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+	COMMAND ${CMAKE_COMMAND} -E echo "Copying img directory..."
+	COMMAND ${CMAKE_COMMAND} -E copy_directory
+		${CMAKE_SOURCE_DIR}/img
+		$<TARGET_FILE_DIR:${PROJECT_NAME}>/img
+)
+
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
 	COMMAND ${CMAKE_COMMAND} -E copy_if_different
 		"${LUAROOT}/bin/lua51.dll"
 		"$<TARGET_FILE_DIR:${PROJECT_NAME}>"
 )
 
-file(COPY img DESTINATION .)
+# file(COPY img DESTINATION .)

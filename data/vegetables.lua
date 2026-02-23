@@ -5,126 +5,178 @@
 --	File: data/vegetables.lua
 --	Desc: Defines vegetable properties
 -- 
---	Modified: 2026/01/18 11:02 AM
+--	Modified: 2026/02/23 2:10 PM
 --	Created: 2026/01/08 8:25 PM
 --	Authors: The Kumor
 -- 
 -- ================================================
 
+rect_size = { 260, 260 }
+
 -- PL: Marchewka
 veg_carrot = {
+	lang_pl = "Marchewka",
+	lang_en = "Carrot",
 	img = "img/vegetables/carrot.png",
 	likes = { "onion", "leek", "peas", "lettuce", "radish" },
-	hates = { "celery", "dill" }
+	hates = { "celery", "dill" },
+	pos = { 2, 2 }
 }
 
 -- PL: Bób
 veg_broad_bean = {
+	lang_pl = "Bob",
+	lang_en = "Broad Bean",
 	img = "img/vegetables/broad_bean.png",
 	likes = { "lettuce", "corn" },
-	hates = { "onion", "garlic" }
+	hates = { "onion", "garlic" },
+	pos = { 1, 5 }
 }
 
 -- PL: Ziemniak
 veg_potato = {
+	lang_pl = "Ziemniak",
+	lang_en = "Potato",
 	img = "img/vegetables/potato.png",
 	likes = { "bean", "corn", "cabbage", "horseradish" },
-	hates = { "tomato", "cucumber", "pumpkin" }
+	hates = { "tomato", "cucumber", "pumpkin" },
+	pos = { 1, 4 }
 }
 
 -- PL: Seler
 veg_celery = {
+	lang_pl = "Seler",
+	lang_en = "Celery",
 	img = "img/vegetables/celery.png",
 	likes = { "cabbage", "leek", "onion" },
-	hates = { "carrot", "parsley" }
+	hates = { "carrot", "parsley" },
+	pos = { 5, 2 }
 }
 
 -- PL: Rzodkiewka
 veg_radish = {
+	lang_pl = "Rzodkiewka",
+	lang_en = "Radish",
 	img = "img/vegetables/radish.png",
 	likes = { "carrot", "lettuce", "peas", "cucumber" },
-	hates = { "hyssop" } -- optional / can be removed
+	hates = { "hyssop" },
+	pos = { 5, 1 }
 }
 
 -- PL: Fasola
 veg_bean = {
+	lang_pl = "Fasola",
+	lang_en = "Bean",
 	img = "img/vegetables/bean.png",
 	likes = { "corn", "potato", "cabbage", "cucumber" },
-	hates = { "onion", "garlic", "leek" }
+	hates = { "onion", "garlic", "leek" },
+	pos = { 1, 1 }
 }
 
 -- PL: Por
 veg_leek = {
+	lang_pl = "Por",
+	lang_en = "Leek",
 	img = "img/vegetables/leek.png",
 	likes = { "carrot", "celery", "onion" },
-	hates = { "bean", "peas" }
+	hates = { "bean", "peas" },
+	pos = { 2, 1 }
 }
 
 -- PL: Burak
 veg_beetroot = {
+	lang_pl = "Burak",
+	lang_en = "Beetroot",
 	img = "img/vegetables/beetroot.png",
 	likes = { "onion", "lettuce", "cabbage" },
-	hates = { "peas" }
+	hates = { "peas" },
+	pos = { 1, 2 }
 }
 
 -- PL: Sałata
 veg_lettuce = {
+	lang_pl = "Salata",
+	lang_en = "Lettuce",
 	img = "img/vegetables/lettuce.png",
 	likes = { "carrot", "beetroot", "radish", "cucumber" },
-	hates = {}
+	hates = {},
+	pos = { 5, 3 }
 }
 
 -- PL: Czosnek
 veg_garlic = {
+	lang_pl = "Czosnek",
+	lang_en = "Garlic",
 	img = "img/vegetables/garlic.png",
 	likes = { "carrot", "beetroot", "lettuce", "cabbage" },
-	hates = { "bean", "peas" }
+	hates = { "bean", "peas" },
+	pos = { 5, 5 }
 }
 
 -- PL: Cebula
 veg_onion = {
+	lang_pl = "Cebula",
+	lang_en = "Onion",
 	img = "img/vegetables/onion.png",
 	likes = { "carrot", "beetroot", "lettuce" },
-	hates = { "bean", "peas" }
+	hates = { "bean", "peas" },
+	pos = { 3, 5 }
 }
 
 -- PL: Ogórek
 veg_cucumber = {
+	lang_pl = "Ogorek",
+	lang_en = "Cucumber",
 	img = "img/vegetables/cucumber.png",
 	likes = { "bean", "peas", "lettuce", "radish", "dill" },
-	hates = { "potato" }
+	hates = { "potato" },
+	pos = { 3, 2 }
 }
 
 -- PL: Papryka
 veg_pepper = {
+	lang_pl = "Papryka",
+	lang_en = "Pepper",
 	img = "img/vegetables/pepper.png",
 	likes = { "onion", "lettuce", "carrot" },
-	hates = { "bean" }
+	hates = { "bean" },
+	pos = { 4, 5 }
 }
 
 -- PL: Kapusta
 veg_cabbage = {
+	lang_pl = "Kapusta",
+	lang_en = "Cabbage",
 	img = "img/vegetables/cabbage.png",
 	likes = { "celery", "onion", "potato", "bean" },
-	hates = { "strawberry" } -- optional
+	hates = { "strawberry" },
+	pos = { 4, 2 }
 }
 
 -- PL: Groszek
 veg_peas = {
+	lang_pl = "Groszek",
+	lang_en = "Peas",
 	img = "img/vegetables/peas.png",
 	likes = { "carrot", "radish", "cucumber" },
-	hates = { "onion", "garlic", "leek" }
+	hates = { "onion", "garlic", "leek" },
+	pos = { 1, 5 }
 }
 
 -- PL: Dynia
 veg_pumpkin = {
+	lang_pl = "Dynia",
+	lang_en = "Pumpkin",
 	img = "img/vegetables/pumpkin.png",
 	likes = { "corn", "bean" },
-	hates = { "potato" }
+	hates = { "potato" },
+	pos = { 1, 1 }
 }
 
 -- PL: Cukinia
 veg_zucchini = {
+	lang_pl = "Cukinia",
+	lang_en = "Zucchini",
 	img = "img/vegetables/zucchini.png",
 	likes = { "corn", "bean" },
 	hates = { "potato" }
@@ -132,63 +184,90 @@ veg_zucchini = {
 
 -- PL: Bakłażan
 veg_eggplant = {
+	lang_pl = "Baklazan",
+	lang_en = "Eggplant",
 	img = "img/vegetables/eggplant.png",
 	likes = { "bean", "lettuce" },
-	hates = { "potato" }
+	hates = { "potato" },
+	pos = { 1, 3 }
 }
 
 -- PL: Kalafior
 veg_cauliflower = {
+	lang_pl = "Kalafior",
+	lang_en = "Cauliflower",
 	img = "img/vegetables/cauliflower.png",
 	likes = { "celery", "onion" },
-	hates = {}
+	hates = {},
+	pos = { 4, 4 }
 }
 
 -- PL: Brokuł
 veg_broccoli = {
+	lang_pl = "Brokul",
+	lang_en = "Broccoli",
 	img = "img/vegetables/broccoli.png",
 	likes = { "celery", "onion" },
-	hates = {}
+	hates = {},
+	pos = { 4, 3 }
 }
 
 -- PL: Pietruszka
 veg_parsley = {
+	lang_pl = "Pietruszka",
+	lang_en = "Parsley",
 	img = "img/vegetables/parsley.png",
 	likes = { "onion", "carrot" },
-	hates = { "celery" }
+	hates = { "celery" },
+	pos = { 5, 2 }
 }
 
 -- PL: Koper
 veg_dill = {
+	lang_pl = "Koper",
+	lang_en = "Dill",
 	img = "img/vegetables/dill.png",
 	likes = { "cucumber", "lettuce" },
-	hates = { "carrot" }
+	hates = { "carrot" },
+	pos = { 1, 1 }
 }
 
 -- PL: Chrzan
 veg_horseradish = {
+	lang_pl = "Chrzan",
+	lang_en = "Horseradish",
 	img = "img/vegetables/horseradish.png",
 	likes = { "potato" },
-	hates = {}
+	hates = {},
+	pos = { 1, 1 }
 }
 
 -- PL: Kukurydza
 veg_corn = {
+	lang_pl = "Kukurydza",
+	lang_en = "Corn",
 	img = "img/vegetables/corn.png",
 	likes = { "bean", "pumpkin", "zucchini" },
-	hates = {}
+	hates = {},
+	pos = { 3, 1 }
 }
 
 -- PL: Pomidor
 veg_tomato = {
+	lang_pl = "Pomidor",
+	lang_en = "Tomato",
 	img = "img/vegetables/tomato.png",
 	likes = {},
-	hates = {}
+	hates = {},
+	pos = { 2, 4 }
 }
 
 -- PL: Kalarepa
 veg_kohlrabi = {
+	lang_pl = "Kalarepa",
+	lang_en = "Kohlrabi",
 	img = "img/vegetables/kohlrabi.png",
 	likes = { "tomato", "bean", "celery", "beetroot", "radish", "leek", "lettuce" },
-	hates = {}
+	hates = {},
+	pos = { 5, 1 }
 }

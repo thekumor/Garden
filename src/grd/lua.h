@@ -5,7 +5,7 @@
 //	File: src/grd/lua.h
 //	Desc: Lua bindings for Garden.
 // 
-//	Modified: 2026/02/22 11:03 AM
+//	Modified: 2026/02/23 8:55 AM
 //	Created: 2026/02/10 6:29 PM
 //	Authors: The Kumor
 // 
@@ -13,9 +13,12 @@
 
 #pragma once
 
+#define GRD_LUA_ENABLE_CACHE 0
+
 // STL
 #include <vector>
 #include <string>
+#include <unordered_map>
 
 // LuaJIT
 extern "C" {
@@ -78,12 +81,24 @@ namespace grd
 		std::vector<LuaVariable> GetTable(const char* name);
 		std::vector<LuaVariable> GetGlobalVariables();
 		std::vector<KeyTable> GetTables(const char* name);
+#if GRD_LUA_ENABLE_CACHE
+		const std::vector<KeyTable>* GetCachedComplexTable(const std::string& name) const;
+		const std::vector<LuaVariable>* GetCachedTable(const std::string& name) const;
+		const LuaVariable* GetCachedVariable(const std::string& name) const;
+#endif
 		void DoFile(const char* path);
 		void DoString(const char* str);
 
 	private:
 		LuaType CheckVariable(LuaVariable& variable, std::int32_t offset = -1);
 		lua_State* m_State;
+#if GRD_LUA_ENABLE_CACHE
+		std::unordered_map<std::string, std::vector<KeyTable>> m_CachedComplexTables;
+		std::unordered_map<std::string, std::vector<LuaVariable>> m_CachedTables;
+		std::unordered_map<std::string, LuaVariable> m_CachedVariables;
+#endif
 	};
+
+	extern Lua g_Lua;
 
 }

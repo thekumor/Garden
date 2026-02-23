@@ -1,4 +1,4 @@
-// ================================================
+﻿// ================================================
 // 
 //	Project: Garden
 // 
@@ -70,11 +70,22 @@ namespace grd
 		DestroyWindow(m_Handle);
 	}
 
+	void Control::ClearControls()
+	{
+		for (auto& k : m_Controls)
+		{
+			k->Close();
+			delete k;
+		}
+
+		m_Controls.clear();
+	}
+
 	WNDCLASSEXW Button::s_ButtonClass;
 	Button::Button(const std::wstring& text, const Vec2i& size, const Vec2i& position, HWND parent)
 		: Control(text, size, position)
 	{
-		static const wchar_t* className = L"Garden Field";
+		static const wchar_t* className = L"Garden Button";
 		HINSTANCE instance = static_cast<HINSTANCE>(GetModuleHandle(nullptr));
 
 		if (!s_ButtonClass.hInstance)
@@ -107,14 +118,14 @@ namespace grd
 		);
 		CheckErrors(L"Button.Button.CreateWindow");
 
-		m_Listener->AddCallback(EventType::WindowResize, [this](EventData ev)
-			{
-				Vec2<float> delta = GRD_EVDATA_CAST(ev, Vec2<float>);
+		//m_Listener->AddCallback(EventType::WindowResize, [this](EventData ev)
+		//	{
+		//		Vec2<float> delta = GRD_EVDATA_CAST(ev, Vec2<float>);
 
-				Resize(delta);
-				Reposition(delta);
-			}
-		);
+		//		Resize(delta);
+		//		Reposition(delta);
+		//	}
+		//);
 
 		m_Listener->SetQualifier(m_Handle);
 	}
@@ -128,33 +139,6 @@ namespace grd
 		{
 			case WM_PAINT:
 			{
-				//PAINTSTRUCT ps;
-				//HBRUSH border = CreateSolidBrush(RGB(32, 32, 32));
-				//HBRUSH background = CreateSolidBrush(RGB(220, 220, 220));
-				//RECT rc;
-				//GetClientRect(handle, &rc);
-
-				//HDC hdc = BeginPaint(handle, &ps);
-				//FillRect(hdc, &rc, background);
-				//FrameRect(hdc, &rc, border);
-				//EndPaint(handle, &ps);
-
-				//HBITMAP hBitmap = s_Bitmaps[s_ImgPath];
-
-				//PAINTSTRUCT ps;
-				//HDC hdc = BeginPaint(handle, &ps);
-				//HDC memDC = CreateCompatibleDC(hdc);
-				//HGDIOBJ old = SelectObject(memDC, hBitmap);
-
-				//BITMAP bitmap;
-				//GetObject(hBitmap, sizeof(bitmap), &bitmap);
-				////BitBlt(hdc, 0, 0, bitmap.bmWidth, bitmap.bmHeight, memDC, 0, 0, SRCCOPY);
-				//StretchBlt(hdc, 0, 0, 64, 64, memDC, 0, 0, bitmap.bmWidth, bitmap.bmHeight, SRCCOPY);
-				//SelectObject(memDC, old);
-				//DeleteDC(memDC);
-
-				//EndPaint(handle, &ps);
-
 				PAINTSTRUCT ps;
 				HDC hdc = BeginPaint(handle, &ps);
 				static HBRUSH background = CreateSolidBrush(RGB(220, 220, 220));
@@ -164,14 +148,13 @@ namespace grd
 				FillRect(hdc, &ps.rcPaint, background);
 				FrameRect(hdc, &rc, frame);
 
-				// TODO: Make it center vertically
-				LPWSTR text = nullptr;
+				wchar_t text[32];
 				std::int32_t length = GetWindowTextLengthW(handle);
+
 				if (length != 0)
 				{
-#pragma warning(disable: 6387)
-					GetWindowTextW(handle, text, length);
-					DrawTextW(hdc, L"Test", -1, &rc, DT_VCENTER | DT_CENTER);
+					GetWindowTextW(handle, text, length + 1);
+					DrawTextW(hdc, text, -1, &rc, DT_CENTER | DT_BOTTOM | DT_SINGLELINE);
 				}
 				EndPaint(handle, &ps);
 

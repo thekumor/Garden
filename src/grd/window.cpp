@@ -130,17 +130,6 @@ namespace grd
 		return DefWindowProc(handle, msg, wp, lp);
 	}
 
-	void Window::ClearControls()
-	{
-		for (auto& k : m_Controls)
-		{
-			k->Close();
-			delete k;
-		}
-
-		m_Controls.clear();
-	}
-
 	void Window::ForceRedraw()
 	{
 		InvalidateRect(m_Handle, 0, TRUE);

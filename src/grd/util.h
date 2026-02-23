@@ -78,6 +78,8 @@ namespace grd
 		{
 			return Vec2<T>(X / scalar, Y / scalar);
 		}
+
+		friend bool operator==(const Vec2<T>&, const Vec2<T>&) = default;
 	};
 
 	// ---------------------------------------------------
@@ -96,7 +98,7 @@ namespace grd
 			m_Valid(true)
 		{}
 		~Handle() = default;
-		
+
 		T& operator*()
 		{
 			return m_Value;
@@ -122,5 +124,22 @@ namespace grd
 	DWORD CheckErrors(const std::wstring& info);
 
 	extern std::unordered_map<HWND, Vec2i> g_WindowSizes;
+
+}
+
+namespace std
+{
+
+	template <typename T>
+	struct hash<grd::Vec2<T>>
+	{
+		std::size_t operator()(const grd::Vec2<T>& v) const noexcept
+		{
+			std::size_t h1 = std::hash<T>{}(v.x);
+			std::size_t h2 = std::hash<T>{}(v.y);
+
+			return h1 ^ (h2 + 0x9e3779b97f4a7c15ULL + (h1 << 6) + (h1 >> 2));
+		}
+	};
 
 }

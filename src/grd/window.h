@@ -5,7 +5,7 @@
 //	File: src/grd/window.h
 //	Desc: Window class definition.
 // 
-//	Modified: 2026/02/21 6:34 PM
+//	Modified: 2026/02/23 9:48 AM
 //	Authors: The Kumor
 // 
 // ================================================
@@ -43,19 +43,9 @@ namespace grd
 
 		static WNDCLASSEXW s_WindowClass;
 
-		template <typename T>
-		T* CreateControl(const std::wstring& text, const Vec2i& size, const Vec2i& position)
-		{
-			return static_cast<T*>(m_Controls.emplace_back(new T(text, size, position, m_Handle)));
-		}
-
 		static LRESULT s_WindowProcedure(HWND, UINT, WPARAM, LPARAM);
 
-		void ClearControls();
 		void ForceRedraw();
-
-	private:
-		std::vector<Control*> m_Controls = { };
 	};
 
 	// ---------------------------------------------------
