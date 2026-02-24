@@ -69,7 +69,7 @@ namespace grd
 
 			ImageRect vegetableRect(vegetablePos * Vec2i(200, 200), Vec2i(200, 200));
 
-			Vegetable newVegetable(vegetableName, vegetableLikes, vegetableHates, vegetableRect);
+			Vegetable newVegetable(vegetableCodeName, vegetableLikes, vegetableHates, vegetableRect);
 			g_Vegetables.push_back(newVegetable);
 
 			std::wstring wVegetableName(vegetableName.begin(), vegetableName.end());
