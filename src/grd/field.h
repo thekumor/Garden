@@ -5,7 +5,7 @@
 //	File: src/grd/field.h
 //	Desc: Field and the way it behaves.
 // 
-//	Modified: 2026/02/24 10:16 AM
+//	Modified: 2026/02/24 1:09 PM
 //	Created: 2026/02/20 10:35 AM
 //	Authors: The Kumor
 // 

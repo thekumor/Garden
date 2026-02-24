@@ -86,6 +86,8 @@ namespace grd
 
 					img->SetBgColors(RGB(128, 128, 128), RGB(0, 0, 0));
 
+					OutputDebugStringA(g_CurrentVegetable->GetName().c_str());
+
 					Image::s_SelectedImg = img;
 
 					std::vector<Control*> panelControls = panel.GetControls();
@@ -98,9 +100,9 @@ namespace grd
 						Vegetable* relatedVegetable = GetGlobalVegetableByRect(im->GetRect());
 						if (!relatedVegetable) continue;
 
-						if (relatedVegetable->DoesHate(vegetableCodeName))
+						if (relatedVegetable->DoesHate(vegetableCodeName) || g_CurrentVegetable->DoesHate(relatedVegetable->GetName()))
 							im->SetBgColors(RGB(255, 0, 0), RGB(0, 0, 0));
-						else if (relatedVegetable->DoesLike(vegetableCodeName))
+						else if (relatedVegetable->DoesLike(vegetableCodeName) || g_CurrentVegetable->DoesLike(relatedVegetable->GetName()))
 							im->SetBgColors(RGB(0, 255, 0), RGB(0, 0, 0));
 						else
 							im->SetBgColors(RGB(64, 64, 64), RGB(0, 0, 0));

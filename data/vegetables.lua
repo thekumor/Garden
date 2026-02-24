@@ -5,7 +5,7 @@
 --	File: data/vegetables.lua
 --	Desc: Defines vegetable properties
 -- 
---	Modified: 2026/02/23 6:47 PM
+--	Modified: 2026/02/24 12:48 PM
 --	Created: 2026/01/08 8:25 PM
 --	Authors: The Kumor
 -- 
@@ -258,6 +258,8 @@ veg_tomato = {
 	lang_pl = "Pomidor",
 	lang_en = "Tomato",
 	img = "img/vegetables/tomato.png",
+	--likes = { "kohlrabi" },
+	--hates = { "potato" },
 	likes = {},
 	hates = {},
 	pos = { 4, 4 }

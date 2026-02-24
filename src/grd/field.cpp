@@ -5,7 +5,7 @@
 //	File: src/grd/field.h
 //	Desc: Field and the way it behaves.
 // 
-//	Modified: 2026/02/24 10:16 AM
+//	Modified: 2026/02/24 1:09 PM
 //	Created: 2026/02/20 10:42 AM
 //	Authors: The Kumor
 // 
@@ -16,16 +16,39 @@
 namespace grd
 {
 
-	static std::unordered_map<Vec2i, ImageRect> s_PlantedVegetables = {};
+	static std::unordered_map<Vec2i, Vegetable*> s_PlantedVegetables = {};
 
 	static void PaintField(HWND handle, HDC hdc)
 	{
-		static HBRUSH s_Background = CreateSolidBrush(RGB(0, 255, 0));
+		static HBRUSH s_LikesBackground = CreateSolidBrush(RGB(0, 255, 0));
+		static HBRUSH s_HatesBackground = CreateSolidBrush(RGB(255, 0, 0));
+		static HBRUSH s_NeutralBackground = CreateSolidBrush(RGB(0, 120, 0));
 
 		for (auto& plantedVeg : s_PlantedVegetables)
 		{
 			Vec2i position = plantedVeg.first;
-			ImageRect imageRect = plantedVeg.second;
+			Vegetable* vegetable = plantedVeg.second;
+
+			HBRUSH* chosenBrush = &s_NeutralBackground;
+
+			for (auto& neighbourVeg : s_PlantedVegetables)
+			{
+				if (neighbourVeg == plantedVeg) continue;
+
+				Vec2i neighbourPosition = neighbourVeg.first;
+
+				if (neighbourPosition.Length(position) > 128) continue;
+
+				Vegetable* neighbourVegetable = neighbourVeg.second;
+				// Check if they like each other and mark colors
+
+				if (neighbourVegetable->DoesLike(vegetable->GetName()) || vegetable->DoesLike(neighbourVegetable->GetName()))
+					chosenBrush = &s_LikesBackground;
+				else if (neighbourVegetable->DoesHate(vegetable->GetName()) || vegetable->DoesHate(neighbourVegetable->GetName()))
+					chosenBrush = &s_HatesBackground;
+			}
+
+			ImageRect imageRect = vegetable->GetRect();
 
 			BITMAPINFO bmi = { 0 };
 			bmi.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
@@ -42,7 +65,7 @@ namespace grd
 			rc.bottom = rc.top + 64;
 
 			// Some background
-			FillRect(hdc, &rc, s_Background);
+			FillRect(hdc, &rc, *chosenBrush);
 
 			HDC memDC = CreateCompatibleDC(hdc);
 			void* bits = nullptr;
@@ -115,15 +138,14 @@ namespace grd
 				cursorPos.y -= cursorPos.y % 64;
 
 				RECT paintRegion;
-				paintRegion.left = cursorPos.x;
-				paintRegion.top = cursorPos.y;
-				paintRegion.right = paintRegion.left + 64;
-				paintRegion.bottom = paintRegion.top + 64;
+				paintRegion.left = cursorPos.x - 128;
+				paintRegion.top = cursorPos.y - 128;
+				paintRegion.right = paintRegion.left + 320;
+				paintRegion.bottom = paintRegion.top + 320;
 
-				ImageRect imgRect = g_CurrentVegetable->GetRect();
 				Vec2i cursorVec(cursorPos.x, cursorPos.y);
 
-				s_PlantedVegetables[cursorVec] = imgRect;
+				s_PlantedVegetables[cursorVec] = g_CurrentVegetable;
 				InvalidateRect(handle, &paintRegion, TRUE);
 			} break;
 		}

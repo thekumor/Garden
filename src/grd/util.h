@@ -5,7 +5,7 @@
 //	File: src/grd/util.h
 //	Desc: Utility functions and structures.
 // 
-//	Modified: 2026/02/24 8:31 AM
+//	Modified: 2026/02/24 1:16 PM
 //	Authors: The Kumor
 // 
 // ================================================
@@ -16,6 +16,7 @@
 #include <cstdint>
 #include <string>
 #include <unordered_map>
+#include <cmath>
 
 // WinAPI
 #include <windows.h>
@@ -82,6 +83,11 @@ namespace grd
 		friend bool operator==(const Vec2<T>& v1, const Vec2<T>& v2)
 		{
 			return v1.x == v2.x && v1.y == v2.y;
+		}
+
+		std::uint32_t Length(const Vec2<T>& other)
+		{
+			return abs(sqrt(pow(x - other.x, 2) + pow(y - other.y, 2)));
 		}
 	};
 
