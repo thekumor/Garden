@@ -1,7 +1,7 @@
 // Microsoft Visual C++ generated resource script.
 //
 #include "resource.h"
-#include <winres.h>
+#include "winnt.h"
 /////////////////////////////////////////////////////////////////////////////
 // English (United States) resources
 
@@ -43,7 +43,7 @@ IDR_MENU1 MENU
 BEGIN
     POPUP "Application"
     BEGIN
-        POPUP "Size"
+        POPUP "Size", INACTIVE
         BEGIN
             MENUITEM "32x32",                       ID_SIZE_32X32
             MENUITEM "48x48",                       ID_SIZE_48X48
