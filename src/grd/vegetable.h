@@ -5,7 +5,7 @@
 //	File: src/grd/vegetable.h
 //	Desc: 
 // 
-//	Modified: 2026/02/24 9:26 AM
+//	Modified: 2026/02/24 10:11 AM
 //	Created: 2026/02/24 9:26 AM
 //	Authors: The Kumor
 // 
@@ -31,9 +31,12 @@ namespace grd
 		Vegetable(const std::string& name, const std::vector<LuaVariable>& likes, const std::vector<LuaVariable>& hates, const ImageRect& rect);
 		Vegetable() = default;
 
+		bool operator==(const Vegetable& other);
+
 		inline ImageRect GetRect() const { return m_ImageRect; }
 		inline const std::vector<std::string>& GetHates() const { return m_Hates; }
 		inline const std::vector<std::string>& GetLikes() const { return m_Likes; }
+		inline const std::string& GetName() const { return m_Name; }
 		bool DoesLike(const std::string& other);
 		bool DoesHate(const std::string& other);
 		void SetRect(const ImageRect& rect);
@@ -43,5 +46,12 @@ namespace grd
 		std::vector<std::string> m_Likes, m_Hates;
 		ImageRect m_ImageRect;
 	};
+
+	extern std::vector<Vegetable> g_Vegetables;
+	extern Vegetable* g_CurrentVegetable;
+
+	Vegetable* GetGlobalVegetableByRect(const ImageRect& rect);
+	Vegetable* GetGlobalVegetableByName(const std::string& name);
+	Vegetable* GetGlobalVegetable(const Vegetable& veg);
 
 }

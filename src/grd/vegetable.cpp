@@ -5,7 +5,7 @@
 //	File: src/grd/vegetable.cpp
 //	Desc: 
 // 
-//	Modified: 2026/02/24 9:26 AM
+//	Modified: 2026/02/24 10:11 AM
 //	Created: 2026/02/24 9:26 AM
 //	Authors: The Kumor
 // 
@@ -30,6 +30,11 @@ namespace grd
 			m_Hates.push_back(k.Value);
 	}
 
+	bool Vegetable::operator==(const Vegetable& other)
+	{
+		return m_Name == other.m_Name;
+	}
+
 	bool Vegetable::DoesLike(const std::string& other)
 	{
 		for (auto& k : m_Likes)
@@ -51,6 +56,33 @@ namespace grd
 	void Vegetable::SetRect(const ImageRect& rect)
 	{
 		m_ImageRect = rect;
+	}
+
+	Vegetable* GetGlobalVegetableByRect(const ImageRect& rect)
+	{
+		for (auto& k : g_Vegetables)
+			if (k.GetRect() == rect)
+				return &k;
+
+		return nullptr;
+	}
+
+	Vegetable* GetGlobalVegetableByName(const std::string& name)
+	{
+		for (auto& k : g_Vegetables)
+			if (k.GetName() == name)
+				return &k;
+
+		return nullptr;
+	}
+
+	Vegetable* GetGlobalVegetable(const Vegetable& veg)
+	{
+		for (auto& k : g_Vegetables)
+			if (k == veg)
+				return &k;
+
+		return nullptr;
 	}
 
 }

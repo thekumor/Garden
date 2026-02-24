@@ -5,7 +5,7 @@
 //	File: src/grd/field.h
 //	Desc: Field and the way it behaves.
 // 
-//	Modified: 2026/02/24 8:30 AM
+//	Modified: 2026/02/24 10:16 AM
 //	Created: 2026/02/20 10:35 AM
 //	Authors: The Kumor
 // 
@@ -25,6 +25,7 @@
 #include <grd/events.h>
 #include <grd/base_class.h>
 #include <grd/image.h>
+#include <grd/vegetable.h>
 
 namespace grd
 {

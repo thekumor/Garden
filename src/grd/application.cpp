@@ -5,7 +5,7 @@
 //	File: src/grd/application.cpp
 //	Desc: Application class definition.
 // 
-//	Modified: 2026/02/24 9:40 AM
+//	Modified: 2026/02/24 10:08 AM
 //	Authors: The Kumor
 // 
 // ================================================
@@ -40,8 +40,7 @@ namespace grd
 		g_Lua.DoFile("data/vegetables.lua");
 		std::vector<LuaVariable> luaGlobals = g_Lua.GetGlobalVariables();
 		std::vector<std::vector<KeyTable>> luaVegetables = { };
-		std::vector<Vegetable> vegetables = { };
-		vegetables.reserve(26);
+		g_Vegetables.reserve(26);
 		
 		Vec2i vegetableButtonPos(4, 40);
 		for (auto& k : luaGlobals)
@@ -69,15 +68,15 @@ namespace grd
 			ImageRect vegetableRect(vegetablePos * Vec2i(200, 200), Vec2i(200, 200));
 
 			Vegetable newVegetable(vegetableName, vegetableLikes, vegetableHates, vegetableRect);
-			vegetables.push_back(newVegetable);
+			g_Vegetables.push_back(newVegetable);
 
 			std::wstring wVegetableName(vegetableName.begin(), vegetableName.end());
 
 			Image* img = panel.CreateControl<Image>(wVegetableName, { 96, 64 }, vegetableButtonPos);
 			img->SetRect(vegetableRect);
-			img->GetListener()->AddCallback(EventType::MousePressed, [img](const EventData& ev)
+			img->GetListener()->AddCallback(EventType::MousePressed, [img, vegetableName](const EventData& ev)
 				{
-					g_CurrentImageRect = img->GetRect();
+					g_CurrentVegetable = GetGlobalVegetableByName(vegetableName);
 				});
 
 			vegetableButtonPos.x += 100;

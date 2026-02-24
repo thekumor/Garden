@@ -5,7 +5,7 @@
 //	File: src/grd/image.h
 //	Desc: Defines the way images are stored.
 // 
-//	Modified: 2026/02/23 2:34 PM
+//	Modified: 2026/02/24 10:15 AM
 //	Created: 2026/02/23 10:48 AM
 //	Authors: The Kumor
 // 
@@ -54,8 +54,6 @@ namespace grd
 
 		friend bool operator==(const ImageRect&, const ImageRect&) = default;
 	};
-
-	extern ImageRect g_CurrentImageRect;
 
 	class Image : public Control
 	{

@@ -5,7 +5,7 @@
 //	File: src/grd/field.h
 //	Desc: Field and the way it behaves.
 // 
-//	Modified: 2026/02/24 8:30 AM
+//	Modified: 2026/02/24 10:16 AM
 //	Created: 2026/02/20 10:42 AM
 //	Authors: The Kumor
 // 
@@ -101,6 +101,8 @@ namespace grd
 
 			case WM_LBUTTONDOWN:
 			{
+				if (!g_CurrentVegetable) break;
+
 				RECT rc;
 				POINT cursorPos;
 				GetCursorPos(&cursorPos);
@@ -118,7 +120,7 @@ namespace grd
 				paintRegion.right = paintRegion.left + 64;
 				paintRegion.bottom = paintRegion.top + 64;
 
-				ImageRect imgRect = g_CurrentImageRect;
+				ImageRect imgRect = g_CurrentVegetable->GetRect();
 				Vec2i cursorVec(cursorPos.x, cursorPos.y);
 
 				s_PlantedVegetables[cursorVec] = imgRect;
