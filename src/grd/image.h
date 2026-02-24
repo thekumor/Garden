@@ -5,7 +5,7 @@
 //	File: src/grd/image.h
 //	Desc: Defines the way images are stored.
 // 
-//	Modified: 2026/02/24 10:15 AM
+//	Modified: 2026/02/24 11:54 AM
 //	Created: 2026/02/23 10:48 AM
 //	Authors: The Kumor
 // 
@@ -17,6 +17,7 @@
 #include <string>
 #include <cstdint>
 #include <unordered_map>
+#include <utility>
 
 // WinAPI
 #include <windows.h>
@@ -64,9 +65,12 @@ namespace grd
 
 		inline ImageRect GetRect() const { return m_Rect; }
 		void SetRect(const ImageRect& rect);
+		void SetBgColors(COLORREF background, COLORREF frame);
 
 		static WNDCLASSEXW s_ImageClass;
+		static Image* s_SelectedImg;
 		static std::unordered_map<HWND, ImageRect> s_ImageRects;
+		static std::unordered_map<HWND, std::pair<HBRUSH, HBRUSH>> s_ImageBgColors;
 		static LRESULT s_WindowProcedure(HWND, UINT, WPARAM, LPARAM);
 
 	private:

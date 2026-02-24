@@ -47,6 +47,8 @@ namespace grd
 		{
 			if (k.Name.substr(0, 4) != "veg_") continue;
 
+			std::string vegetableCodeName = k.Name.substr(4, vegetableCodeName.size() - 4);
+
 			std::vector<KeyTable>& veg = luaVegetables.emplace_back(g_Lua.GetTables(k.Name.c_str()));
 
 			std::string vegetableName = "null";
@@ -74,9 +76,35 @@ namespace grd
 
 			Image* img = panel.CreateControl<Image>(wVegetableName, { 96, 64 }, vegetableButtonPos);
 			img->SetRect(vegetableRect);
-			img->GetListener()->AddCallback(EventType::MousePressed, [img, vegetableName](const EventData& ev)
+
+			img->GetListener()->AddCallback(EventType::MousePressed, [img, vegetableCodeName, &panel](const EventData& ev)
 				{
-					g_CurrentVegetable = GetGlobalVegetableByName(vegetableName);
+					g_CurrentVegetable = GetGlobalVegetableByName(vegetableCodeName);
+
+					if (Image::s_SelectedImg)
+						Image::s_SelectedImg->SetBgColors(RGB(64, 64, 64), RGB(0, 0, 0));
+
+					img->SetBgColors(RGB(128, 128, 128), RGB(0, 0, 0));
+
+					Image::s_SelectedImg = img;
+
+					std::vector<Control*> panelControls = panel.GetControls();
+
+					for (auto& l : panelControls)
+					{
+						Image* im = dynamic_cast<Image*>(l);
+						if (!im || im == img) continue;
+
+						Vegetable* relatedVegetable = GetGlobalVegetableByRect(im->GetRect());
+						if (!relatedVegetable) continue;
+
+						if (relatedVegetable->DoesHate(vegetableCodeName))
+							im->SetBgColors(RGB(255, 0, 0), RGB(0, 0, 0));
+						else if (relatedVegetable->DoesLike(vegetableCodeName))
+							im->SetBgColors(RGB(0, 255, 0), RGB(0, 0, 0));
+						else
+							im->SetBgColors(RGB(64, 64, 64), RGB(0, 0, 0));
+					}
 				});
 
 			vegetableButtonPos.x += 100;

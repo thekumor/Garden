@@ -35,7 +35,7 @@ namespace grd
 	public:
 		Control(const std::wstring& text, const Vec2i& size, const Vec2i& position);
 		Control();
-		~Control() = default;
+		virtual ~Control() = default;
 
 		static LRESULT s_WindowProcedure(HWND, UINT, WPARAM, LPARAM);
 
@@ -45,6 +45,7 @@ namespace grd
 			return static_cast<T*>(m_Controls.emplace_back(new T(text, size, position, m_Handle)));
 		}
 
+		inline std::vector<Control*>& GetControls() { return m_Controls; }
 		inline Vec2i GetSize() const { return m_Size; }
 		inline Vec2i GetPosition() const { return m_Position; }
 		void SetSize(const Vec2i& size);

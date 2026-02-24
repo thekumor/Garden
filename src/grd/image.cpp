@@ -57,7 +57,9 @@ namespace grd
 	}
 
 	WNDCLASSEXW Image::s_ImageClass = { 0 };
+	Image* Image::s_SelectedImg = nullptr;
 	std::unordered_map<HWND, ImageRect> Image::s_ImageRects;
+	std::unordered_map<HWND, std::pair<HBRUSH, HBRUSH>> Image::s_ImageBgColors;
 
 	Image::Image(const std::wstring& text, const Vec2i& size, const Vec2i& position, HWND parent)
 		: Control(L"", size, position)
@@ -95,6 +97,8 @@ namespace grd
 		);
 		CheckErrors(L"Image.Image.CreateWindow");
 
+		SetBgColors(RGB(64, 64, 64), RGB(0, 0, 0));
+
 		m_Listener->SetQualifier(m_Handle);
 	}
 
@@ -102,6 +106,12 @@ namespace grd
 	{
 		m_Rect = rect;
 		s_ImageRects[m_Handle] = rect;
+	}
+
+	void Image::SetBgColors(COLORREF background, COLORREF frame)
+	{
+		Image::s_ImageBgColors[m_Handle] = std::make_pair<HBRUSH, HBRUSH>(CreateSolidBrush(background), CreateSolidBrush(frame));
+		InvalidateRect(m_Handle, nullptr, TRUE);
 	}
 
 	LRESULT Image::s_WindowProcedure(HWND handle, UINT msg, WPARAM wp, LPARAM lp)
@@ -123,10 +133,6 @@ namespace grd
 
 				RECT rc;
 				GetClientRect(handle, &rc);
-				
-				// Some background
-				static HBRUSH brush = CreateSolidBrush(RGB(64, 64, 64));
-				FillRect(hdc, &rc, brush);
 
 				HDC memDC = CreateCompatibleDC(hdc);
 				void* bits = nullptr;
@@ -150,11 +156,19 @@ namespace grd
 					AC_SRC_ALPHA
 				};
 
-				std::unordered_map<HWND, ImageRect>::const_iterator it = Image::s_ImageRects.find(handle);
-				if (it == Image::s_ImageRects.end())
+#ifdef _DEBUG
+				std::unordered_map<HWND, ImageRect>::const_iterator RectIt = Image::s_ImageRects.find(handle);
+				if (RectIt == Image::s_ImageRects.end())
 					MessageBoxW(nullptr, L"Unable to find image rect", L"Image.s_WindowProcedure", IDOK);
 
+				std::unordered_map<HWND, std::pair<HBRUSH, HBRUSH>>::const_iterator colorIt = Image::s_ImageBgColors.find(handle);
+				if (colorIt == Image::s_ImageBgColors.end())
+					MessageBoxW(nullptr, L"Unable to find image colors", L"Image.s_WindowProcedure", IDOK);
+#endif
 				ImageRect imageRect = Image::s_ImageRects[handle];
+
+				FillRect(hdc, &rc, Image::s_ImageBgColors[handle].first);
+				FrameRect(hdc, &rc, Image::s_ImageBgColors[handle].second);
 
 				AlphaBlend(
 					hdc,
