@@ -5,7 +5,7 @@
 //	File: src/grd/controls.h
 //	Desc: GUI Control class definitions
 // 
-//	Modified: 2026/02/23 9:48 AM
+//	Modified: 2026/02/24 9:01 AM
 //	Authors: The Kumor
 // 
 // ================================================
@@ -36,6 +36,8 @@ namespace grd
 		Control(const std::wstring& text, const Vec2i& size, const Vec2i& position);
 		Control();
 		~Control() = default;
+
+		static LRESULT s_WindowProcedure(HWND, UINT, WPARAM, LPARAM);
 
 		template <typename T>
 		T* CreateControl(const std::wstring& text, const Vec2i& size, const Vec2i& position)

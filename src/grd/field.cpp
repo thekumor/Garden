@@ -5,7 +5,7 @@
 //	File: src/grd/field.h
 //	Desc: Field and the way it behaves.
 // 
-//	Modified: 2026/02/22 11:22 AM
+//	Modified: 2026/02/24 8:30 AM
 //	Created: 2026/02/20 10:42 AM
 //	Authors: The Kumor
 // 
@@ -16,23 +16,67 @@
 namespace grd
 {
 
-	static std::vector<POINT> s_Points = {};
+	static std::unordered_map<Vec2i, ImageRect> s_PlantedVegetables = {};
 
 	static void PaintField(HWND handle, HDC hdc)
 	{
-		static HBRUSH s_FieldBgr = CreateSolidBrush(RGB(128, 128, 128));
-		static HBRUSH s_Black = CreateSolidBrush(RGB(0, 0, 0));
+		static HBRUSH s_Background = CreateSolidBrush(RGB(0, 255, 0));
 
-		for (auto& point : s_Points)
+		for (auto& plantedVeg : s_PlantedVegetables)
 		{
-			RECT subrc;
-			subrc.left = point.x;
-			subrc.top = point.y;
-			subrc.right = subrc.left + 64;
-			subrc.bottom = subrc.top + 64;
+			Vec2i position = plantedVeg.first;
+			ImageRect imageRect = plantedVeg.second;
 
-			FillRect(hdc, &subrc, s_FieldBgr);
-			FrameRect(hdc, &subrc, s_Black);
+			BITMAPINFO bmi = { 0 };
+			bmi.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
+			bmi.bmiHeader.biWidth = g_ImageInfo.ImageWidth;
+			bmi.bmiHeader.biHeight = -g_ImageInfo.ImageHeight;
+			bmi.bmiHeader.biPlanes = 1;
+			bmi.bmiHeader.biBitCount = 32;
+			bmi.bmiHeader.biCompression = BI_RGB;
+
+			RECT rc;
+			rc.left = position.x;
+			rc.top = position.y;
+			rc.right = rc.left + 64;
+			rc.bottom = rc.top + 64;
+
+			// Some background
+			FillRect(hdc, &rc, s_Background);
+
+			HDC memDC = CreateCompatibleDC(hdc);
+			void* bits = nullptr;
+
+			HBITMAP dib = CreateDIBSection(
+				hdc,
+				&bmi,
+				DIB_RGB_COLORS,
+				&bits,
+				nullptr,
+				0
+			);
+
+			memcpy(bits, g_ImageInfo.ImageData, g_ImageInfo.ImageWidth * g_ImageInfo.ImageHeight * 4);
+			HBITMAP old = reinterpret_cast<HBITMAP>(SelectObject(memDC, dib));
+
+			BLENDFUNCTION bf = {
+				AC_SRC_OVER,
+				0,
+				255,
+				AC_SRC_ALPHA
+			};
+
+			AlphaBlend(
+				hdc,
+				rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top,
+				memDC,
+				imageRect.Pos.x, imageRect.Pos.y, imageRect.Size.x, imageRect.Size.y,
+				bf
+			);
+
+			SelectObject(memDC, old);
+			DeleteObject(dib);
+			DeleteDC(memDC);
 		}
 	}
 
@@ -51,7 +95,7 @@ namespace grd
 
 				HDC hdc = BeginPaint(handle, &ps);
 				FillRect(hdc, &rc, s_Background);
-				g_EventDispatcher.CallEventQ(Event(EventType::Draw, &hdc), handle);
+				PaintField(handle, hdc);
 				EndPaint(handle, &ps);
 			} break;
 
@@ -74,12 +118,15 @@ namespace grd
 				paintRegion.right = paintRegion.left + 64;
 				paintRegion.bottom = paintRegion.top + 64;
 
-				s_Points.push_back(cursorPos);
+				ImageRect imgRect = g_CurrentImageRect;
+				Vec2i cursorVec(cursorPos.x, cursorPos.y);
+
+				s_PlantedVegetables[cursorVec] = imgRect;
 				InvalidateRect(handle, &paintRegion, TRUE);
 			} break;
 		}
 
-		return DefWindowProcW(handle, msg, wp, lp);
+		return Control::s_WindowProcedure(handle, msg, wp, lp);
 	}
 
 	Field::Field(const Vec2i& size, const Vec2i& position, HWND parent)
@@ -125,12 +172,6 @@ namespace grd
 				Reposition(delta);
 			}
 		);
-
-		m_Listener->AddCallback(EventType::Draw, [this](EventData ev)
-			{
-				HDC hdc = GRD_EVDATA_CAST(ev, HDC);
-				PaintField(nullptr, hdc);
-			});
 
 		m_Listener->SetQualifier(m_Handle);
 	}

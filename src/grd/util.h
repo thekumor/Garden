@@ -5,7 +5,7 @@
 //	File: src/grd/util.h
 //	Desc: Utility functions and structures.
 // 
-//	Modified: 2026/02/09 7:13 PM
+//	Modified: 2026/02/24 8:31 AM
 //	Authors: The Kumor
 // 
 // ================================================
@@ -79,7 +79,10 @@ namespace grd
 			return Vec2<T>(X / scalar, Y / scalar);
 		}
 
-		friend bool operator==(const Vec2<T>&, const Vec2<T>&) = default;
+		friend bool operator==(const Vec2<T>& v1, const Vec2<T>& v2)
+		{
+			return v1.x == v2.x && v1.y == v2.y;
+		}
 	};
 
 	// ---------------------------------------------------

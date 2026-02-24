@@ -6,7 +6,7 @@
 //	Desc: Tool that tells you whether
 //	your vegetable garden is valid or not.
 // 
-//	Modified: 2026/02/23 8:48 AM
+//	Modified: 2026/02/24 9:14 AM
 //	Authors: The Kumor
 // 
 // ================================================
@@ -31,6 +31,7 @@ grd::EventDispatcher grd::g_EventDispatcher;
 grd::ImageInfo grd::g_ImageInfo;
 grd::Lua grd::g_Lua;
 std::unordered_map<HWND, grd::Vec2i> grd::g_WindowSizes;
+grd::ImageRect grd::g_CurrentImageRect;
 
 #pragma warning(disable: 28251)
 

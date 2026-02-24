@@ -55,6 +55,8 @@ namespace grd
 		friend bool operator==(const ImageRect&, const ImageRect&) = default;
 	};
 
+	extern ImageRect g_CurrentImageRect;
+
 	class Image : public Control
 	{
 	public:

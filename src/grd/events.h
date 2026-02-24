@@ -6,7 +6,7 @@
 //	Desc: Event system dispatcher and listener,
 //	event types and event structure.
 // 
-//	Modified: 2026/02/22 10:35 AM
+//	Modified: 2026/02/24 9:05 AM
 //	Created: 2026/01/16 8:20 PM
 //	Authors: The Kumor
 // 
@@ -44,6 +44,7 @@ namespace grd
 		WindowResize,
 		KeyPressed,
 		GridSizeChanged,
+		MousePressed,
 		Draw
 	};
 

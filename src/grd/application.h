@@ -5,7 +5,7 @@
 //	File: src/grd/application.h
 //	Desc: Application class definition.
 // 
-//	Modified: 2026/02/23 10:53 AM
+//	Modified: 2026/02/24 9:36 AM
 //	Authors: The Kumor
 // 
 // ================================================
@@ -28,6 +28,7 @@
 #include <grd/image.h>
 #include <grd/lua.h>
 #include <grd/side_panel.h>
+#include <grd/vegetable.h>
 
 namespace grd
 {

@@ -101,6 +101,7 @@ namespace grd
 	void Image::SetRect(const ImageRect& rect)
 	{
 		m_Rect = rect;
+		s_ImageRects[m_Handle] = rect;
 	}
 
 	LRESULT Image::s_WindowProcedure(HWND handle, UINT msg, WPARAM wp, LPARAM lp)
@@ -178,9 +179,10 @@ namespace grd
 
 				EndPaint(handle, &ps);
 			} break;
+
 		}
 
-		return DefWindowProcW(handle, msg, wp, lp);
+		return Control::s_WindowProcedure(handle, msg, wp, lp);
 	}
 
 	ImageRect::ImageRect(const Vec2i& pos, const Vec2i& size)

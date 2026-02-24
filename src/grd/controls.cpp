@@ -5,7 +5,7 @@
 //	File: src/grd/controls.cpp
 //	Desc: GUI Control class definitions
 // 
-//	Modified: 2026/02/22 11:02 AM
+//	Modified: 2026/02/24 9:03 AM
 //	Authors: The Kumor
 // 
 // ================================================
@@ -22,6 +22,19 @@ namespace grd
 	Control::Control()
 		: m_Text(L""), m_Size(0, 0), m_Position(0, 0), m_Parent(nullptr), m_Handle(nullptr)
 	{}
+
+	LRESULT Control::s_WindowProcedure(HWND handle, UINT msg, WPARAM wp, LPARAM lp)
+	{
+		switch (msg)
+		{
+			case WM_LBUTTONDOWN:
+			{
+				g_EventDispatcher.CallEventQ(Event(EventType::MousePressed, nullptr), handle);
+			} break;
+		}
+
+		return DefWindowProcW(handle, msg, wp, lp);
+	}
 
 	void Control::SetSize(const Vec2i& size)
 	{
@@ -170,7 +183,7 @@ namespace grd
 			} break;
 		}
 
-		return DefWindowProc(handle, msg, wp, lp);
+		return Control::s_WindowProcedure(handle, msg, wp, lp);
 	}
 
 	Text::Text(const std::wstring& text, const Vec2i& size, const Vec2i& position, HWND parent)

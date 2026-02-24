@@ -5,7 +5,7 @@
 --	File: data/vegetables.lua
 --	Desc: Defines vegetable properties
 -- 
---	Modified: 2026/02/23 2:10 PM
+--	Modified: 2026/02/23 6:47 PM
 --	Created: 2026/01/08 8:25 PM
 --	Authors: The Kumor
 -- 
@@ -20,7 +20,7 @@ veg_carrot = {
 	img = "img/vegetables/carrot.png",
 	likes = { "onion", "leek", "peas", "lettuce", "radish" },
 	hates = { "celery", "dill" },
-	pos = { 2, 2 }
+	pos = { 0, 0 }
 }
 
 -- PL: Bób
@@ -30,7 +30,7 @@ veg_broad_bean = {
 	img = "img/vegetables/broad_bean.png",
 	likes = { "lettuce", "corn" },
 	hates = { "onion", "garlic" },
-	pos = { 1, 5 }
+	pos = { 1, 0 }
 }
 
 -- PL: Ziemniak
@@ -40,7 +40,7 @@ veg_potato = {
 	img = "img/vegetables/potato.png",
 	likes = { "bean", "corn", "cabbage", "horseradish" },
 	hates = { "tomato", "cucumber", "pumpkin" },
-	pos = { 1, 4 }
+	pos = { 2, 0 }
 }
 
 -- PL: Seler
@@ -50,7 +50,7 @@ veg_celery = {
 	img = "img/vegetables/celery.png",
 	likes = { "cabbage", "leek", "onion" },
 	hates = { "carrot", "parsley" },
-	pos = { 5, 2 }
+	pos = { 3, 0 }
 }
 
 -- PL: Rzodkiewka
@@ -60,7 +60,7 @@ veg_radish = {
 	img = "img/vegetables/radish.png",
 	likes = { "carrot", "lettuce", "peas", "cucumber" },
 	hates = { "hyssop" },
-	pos = { 5, 1 }
+	pos = { 4, 0 }
 }
 
 -- PL: Fasola
@@ -70,7 +70,7 @@ veg_bean = {
 	img = "img/vegetables/bean.png",
 	likes = { "corn", "potato", "cabbage", "cucumber" },
 	hates = { "onion", "garlic", "leek" },
-	pos = { 1, 1 }
+	pos = { 0, 1 }
 }
 
 -- PL: Por
@@ -80,7 +80,7 @@ veg_leek = {
 	img = "img/vegetables/leek.png",
 	likes = { "carrot", "celery", "onion" },
 	hates = { "bean", "peas" },
-	pos = { 2, 1 }
+	pos = { 1, 1 }
 }
 
 -- PL: Burak
@@ -90,7 +90,7 @@ veg_beetroot = {
 	img = "img/vegetables/beetroot.png",
 	likes = { "onion", "lettuce", "cabbage" },
 	hates = { "peas" },
-	pos = { 1, 2 }
+	pos = { 2, 1 }
 }
 
 -- PL: Sałata
@@ -100,7 +100,7 @@ veg_lettuce = {
 	img = "img/vegetables/lettuce.png",
 	likes = { "carrot", "beetroot", "radish", "cucumber" },
 	hates = {},
-	pos = { 5, 3 }
+	pos = { 3, 1 }
 }
 
 -- PL: Czosnek
@@ -110,7 +110,7 @@ veg_garlic = {
 	img = "img/vegetables/garlic.png",
 	likes = { "carrot", "beetroot", "lettuce", "cabbage" },
 	hates = { "bean", "peas" },
-	pos = { 5, 5 }
+	pos = { 4, 1 }
 }
 
 -- PL: Cebula
@@ -120,7 +120,7 @@ veg_onion = {
 	img = "img/vegetables/onion.png",
 	likes = { "carrot", "beetroot", "lettuce" },
 	hates = { "bean", "peas" },
-	pos = { 3, 5 }
+	pos = { 0, 2 }
 }
 
 -- PL: Ogórek
@@ -130,7 +130,7 @@ veg_cucumber = {
 	img = "img/vegetables/cucumber.png",
 	likes = { "bean", "peas", "lettuce", "radish", "dill" },
 	hates = { "potato" },
-	pos = { 3, 2 }
+	pos = { 1, 2 }
 }
 
 -- PL: Papryka
@@ -140,7 +140,7 @@ veg_pepper = {
 	img = "img/vegetables/pepper.png",
 	likes = { "onion", "lettuce", "carrot" },
 	hates = { "bean" },
-	pos = { 4, 5 }
+	pos = { 2, 2 }
 }
 
 -- PL: Kapusta
@@ -150,7 +150,7 @@ veg_cabbage = {
 	img = "img/vegetables/cabbage.png",
 	likes = { "celery", "onion", "potato", "bean" },
 	hates = { "strawberry" },
-	pos = { 4, 2 }
+	pos = { 3, 2 }
 }
 
 -- PL: Groszek
@@ -160,7 +160,7 @@ veg_peas = {
 	img = "img/vegetables/peas.png",
 	likes = { "carrot", "radish", "cucumber" },
 	hates = { "onion", "garlic", "leek" },
-	pos = { 1, 5 }
+	pos = { 4, 2 }
 }
 
 -- PL: Dynia
@@ -170,7 +170,7 @@ veg_pumpkin = {
 	img = "img/vegetables/pumpkin.png",
 	likes = { "corn", "bean" },
 	hates = { "potato" },
-	pos = { 1, 1 }
+	pos = { 0, 3 }
 }
 
 -- PL: Cukinia
@@ -179,7 +179,8 @@ veg_zucchini = {
 	lang_en = "Zucchini",
 	img = "img/vegetables/zucchini.png",
 	likes = { "corn", "bean" },
-	hates = { "potato" }
+	hates = { "potato" },
+	pos = { 1, 3 }
 }
 
 -- PL: Bakłażan
@@ -189,7 +190,7 @@ veg_eggplant = {
 	img = "img/vegetables/eggplant.png",
 	likes = { "bean", "lettuce" },
 	hates = { "potato" },
-	pos = { 1, 3 }
+	pos = { 2, 3 }
 }
 
 -- PL: Kalafior
@@ -199,7 +200,7 @@ veg_cauliflower = {
 	img = "img/vegetables/cauliflower.png",
 	likes = { "celery", "onion" },
 	hates = {},
-	pos = { 4, 4 }
+	pos = { 3, 3 }
 }
 
 -- PL: Brokuł
@@ -219,7 +220,7 @@ veg_parsley = {
 	img = "img/vegetables/parsley.png",
 	likes = { "onion", "carrot" },
 	hates = { "celery" },
-	pos = { 5, 2 }
+	pos = { 0, 4 }
 }
 
 -- PL: Koper
@@ -229,7 +230,7 @@ veg_dill = {
 	img = "img/vegetables/dill.png",
 	likes = { "cucumber", "lettuce" },
 	hates = { "carrot" },
-	pos = { 1, 1 }
+	pos = { 1, 4 }
 }
 
 -- PL: Chrzan
@@ -239,7 +240,7 @@ veg_horseradish = {
 	img = "img/vegetables/horseradish.png",
 	likes = { "potato" },
 	hates = {},
-	pos = { 1, 1 }
+	pos = { 2, 4 }
 }
 
 -- PL: Kukurydza
@@ -249,7 +250,7 @@ veg_corn = {
 	img = "img/vegetables/corn.png",
 	likes = { "bean", "pumpkin", "zucchini" },
 	hates = {},
-	pos = { 3, 1 }
+	pos = { 3, 4 }
 }
 
 -- PL: Pomidor
@@ -259,7 +260,7 @@ veg_tomato = {
 	img = "img/vegetables/tomato.png",
 	likes = {},
 	hates = {},
-	pos = { 2, 4 }
+	pos = { 4, 4 }
 }
 
 -- PL: Kalarepa
@@ -269,5 +270,5 @@ veg_kohlrabi = {
 	img = "img/vegetables/kohlrabi.png",
 	likes = { "tomato", "bean", "celery", "beetroot", "radish", "leek", "lettuce" },
 	hates = {},
-	pos = { 5, 1 }
+	pos = { 0, 5 }
 }

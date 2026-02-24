@@ -5,7 +5,7 @@
 //	File: src/grd/application.cpp
 //	Desc: Application class definition.
 // 
-//	Modified: 2026/02/23 7:54 AM
+//	Modified: 2026/02/24 9:40 AM
 //	Authors: The Kumor
 // 
 // ================================================
@@ -32,36 +32,53 @@ namespace grd
 		EventListener listener;
 		g_EventDispatcher.PinListener(&listener);
 
-		g_ImageInfo.LoadImage("img/test.png");
+		g_ImageInfo.LoadImage("img/vegetables.png");
 
 		Field field({ GRD_WINDOW_WIDTH - 300, GRD_WINDOW_HEIGHT }, { 0, 0 }, windowHandle);
 		SidePanel panel({ 300, GRD_WINDOW_HEIGHT }, { GRD_WINDOW_WIDTH - 300, 0 }, windowHandle);
 
 		g_Lua.DoFile("data/vegetables.lua");
-		std::vector<LuaVariable> globals = g_Lua.GetGlobalVariables();
-
-		std::vector<std::vector<KeyTable>> vegs = { };
-
+		std::vector<LuaVariable> luaGlobals = g_Lua.GetGlobalVariables();
+		std::vector<std::vector<KeyTable>> luaVegetables = { };
+		std::vector<Vegetable> vegetables = { };
+		vegetables.reserve(26);
+		
 		Vec2i vegetableButtonPos(4, 40);
-		for (auto& k : globals)
+		for (auto& k : luaGlobals)
 		{
 			if (k.Name.substr(0, 4) != "veg_") continue;
 
-			std::vector<KeyTable>& veg = vegs.emplace_back(g_Lua.GetTables(k.Name.c_str()));
+			std::vector<KeyTable>& veg = luaVegetables.emplace_back(g_Lua.GetTables(k.Name.c_str()));
 
 			std::string vegetableName = "null";
+			std::vector<LuaVariable> vegetableLikes, vegetableHates;
+			Vec2i vegetablePos(0, 0);
 
 			for (auto& l : veg)
+			{
 				if (l.Key.Value == "lang_pl")
-				{
 					vegetableName = l.Value[0].Value;
-					break;
-				}
+				else if (l.Key.Value == "pos")
+					vegetablePos = Vec2i(atoi(l.Value[0].Value.c_str()), atoi(l.Value[1].Value.c_str()));
+				else if (l.Key.Value == "likes")
+					vegetableLikes = l.Value;
+				else if (l.Key.Value == "hates")
+					vegetableHates = l.Value;
+			}
+
+			ImageRect vegetableRect(vegetablePos * Vec2i(200, 200), Vec2i(200, 200));
+
+			Vegetable newVegetable(vegetableName, vegetableLikes, vegetableHates, vegetableRect);
+			vegetables.push_back(newVegetable);
 
 			std::wstring wVegetableName(vegetableName.begin(), vegetableName.end());
 
 			Image* img = panel.CreateControl<Image>(wVegetableName, { 96, 64 }, vegetableButtonPos);
-			
+			img->SetRect(vegetableRect);
+			img->GetListener()->AddCallback(EventType::MousePressed, [img](const EventData& ev)
+				{
+					g_CurrentImageRect = img->GetRect();
+				});
 
 			vegetableButtonPos.x += 100;
 			if (vegetableButtonPos.x > 300)

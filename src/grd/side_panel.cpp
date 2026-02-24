@@ -5,7 +5,7 @@
 //	File: src/grd/side_panel.cpp
 //	Desc: Place where buttons to place vegs live.
 // 
-//	Modified: 2026/02/23 8:32 AM
+//	Modified: 2026/02/24 9:03 AM
 //	Created: 2026/02/22 11:30 AM
 //	Authors: The Kumor
 // 
@@ -84,7 +84,7 @@ namespace grd
 			} break;
 		}
 
-		return DefWindowProcW(handle, msg, wp, lp);
+		return Control::s_WindowProcedure(handle, msg, wp, lp);
 	}
 
 }
