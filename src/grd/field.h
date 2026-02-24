@@ -5,7 +5,7 @@
 //	File: src/grd/field.h
 //	Desc: Field and the way it behaves.
 // 
-//	Modified: 2026/02/24 1:09 PM
+//	Modified: 2026/02/24 2:33 PM
 //	Created: 2026/02/20 10:35 AM
 //	Authors: The Kumor
 // 
@@ -30,6 +30,9 @@
 namespace grd
 {
 
+	// ---------------------------------------------------
+	//	Part of screen where user can plant vegetables.
+	// ---------------------------------------------------
 	class Field : public Control
 	{
 	public:

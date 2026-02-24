@@ -5,7 +5,7 @@
 //	File: src/grd/image.h
 //	Desc: Defines the way images are stored.
 // 
-//	Modified: 2026/02/24 11:54 AM
+//	Modified: 2026/02/24 2:31 PM
 //	Created: 2026/02/23 10:48 AM
 //	Authors: The Kumor
 // 
@@ -31,6 +31,9 @@
 namespace grd
 {
 
+	// ---------------------------------------------------
+	//	Contains image size and pixel colors.
+	// ---------------------------------------------------
 	struct ImageInfo
 	{
 		ImageInfo(const std::string& path);
@@ -46,6 +49,9 @@ namespace grd
 
 	extern ImageInfo g_ImageInfo;
 
+	// ---------------------------------------------------
+	//	Sets boundaries for bitmap.
+	// ---------------------------------------------------
 	struct ImageRect
 	{
 		ImageRect(const Vec2i& pos, const Vec2i& size);
@@ -56,6 +62,10 @@ namespace grd
 		friend bool operator==(const ImageRect&, const ImageRect&) = default;
 	};
 
+	// ---------------------------------------------------
+	//	Draws bitmap to the screen using a rectangular
+	//	view of it.
+	// ---------------------------------------------------
 	class Image : public Control
 	{
 	public:
