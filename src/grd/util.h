@@ -5,7 +5,7 @@
 //	File: src/grd/util.h
 //	Desc: Utility functions and structures.
 // 
-//	Modified: 2026/02/24 5:21 PM
+//	Modified: 2026/02/25 2:06 PM
 //	Authors: The Kumor
 // 
 // ================================================

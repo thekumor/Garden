@@ -5,7 +5,7 @@
 //	File: src/grd/application.cpp
 //	Desc: Application class definition.
 // 
-//	Modified: 2026/02/25 9:33 AM
+//	Modified: 2026/02/25 2:41 PM
 //	Authors: The Kumor
 // 
 // ================================================
@@ -48,7 +48,8 @@ namespace grd
 
 	int Application::Run()
 	{
-		HWND windowHandle = m_MainWindow.m_Handle;
+		Window& window = m_MainWindow;
+		HWND windowHandle = window.m_Handle;
 		MSG msg = { };
 		EventListener listener;
 		g_EventDispatcher.PinListener(&listener);
@@ -57,6 +58,19 @@ namespace grd
 
 		Field field({ GRD_WINDOW_WIDTH - 350, GRD_WINDOW_HEIGHT }, { 0, 0 }, windowHandle);
 		SidePanel panel({ 350, GRD_WINDOW_HEIGHT }, { GRD_WINDOW_WIDTH - 350, 0 }, windowHandle);
+
+		//field.GetListener()->AddCallback(EventType::CameraMove, [&field, &window, &panel](const EventData& data)
+		//{
+		//	Vec2i cameraMove = GRD_EVDATA_CAST(data, Vec2i);
+
+		//	if (field.GetPosition().x + cameraMove.x > 0) return;
+		//	if (field.GetPosition().y + cameraMove.y > 0) return;
+
+		//	field.SetPosition(field.GetPosition() + cameraMove);
+		//	panel.PushToFront();
+
+		//	window.ForceRedraw();
+		//});
 
 		panel.GetListener()->AddCallback(EventType::WindowResize, [&panel](const EventData& data)
 		{

@@ -6,7 +6,7 @@
 //	Desc: Event system dispatcher and listener,
 //	event types and event structure.
 // 
-//	Modified: 2026/02/25 8:06 AM
+//	Modified: 2026/02/25 2:14 PM
 //	Created: 2026/01/16 8:20 PM
 //	Authors: The Kumor
 // 
@@ -47,7 +47,8 @@ namespace grd
 		MouseLeft,
 		MouseRight,
 		Draw,
-		LanguageChanged
+		LanguageChanged,
+		CameraMove
 	};
 
 	using EventData = void*;

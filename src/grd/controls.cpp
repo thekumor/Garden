@@ -5,7 +5,7 @@
 //	File: src/grd/controls.cpp
 //	Desc: GUI Control class definitions
 // 
-//	Modified: 2026/02/25 8:08 AM
+//	Modified: 2026/02/25 2:29 PM
 //	Authors: The Kumor
 // 
 // ================================================
@@ -108,6 +108,20 @@ namespace grd
 		}
 
 		m_Controls.clear();
+	}
+
+	void Control::PushToFront()
+	{
+		if (m_Handle)
+			SetWindowPos(
+				m_Handle,
+				HWND_TOP,
+				m_Position.x,
+				m_Position.y,
+				0,
+				0,
+				SWP_NOSIZE
+			);
 	}
 
 	WNDCLASSEXW Button::s_ButtonClass;

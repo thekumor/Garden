@@ -5,7 +5,7 @@
 //	File: src/grd/controls.h
 //	Desc: GUI Control class definitions
 // 
-//	Modified: 2026/02/25 8:08 AM
+//	Modified: 2026/02/25 2:29 PM
 //	Authors: The Kumor
 // 
 // ================================================
@@ -57,6 +57,7 @@ namespace grd
 		void Reposition(const Vec2<float> delta);
 		void Close();
 		void ClearControls();
+		void PushToFront();
 
 	protected:
 		std::vector<Control*> m_Controls = { };

@@ -5,7 +5,7 @@
 //	File: src/grd/field.h
 //	Desc: Field and the way it behaves.
 // 
-//	Modified: 2026/02/25 11:32 AM
+//	Modified: 2026/02/25 2:00 PM
 //	Created: 2026/02/20 10:42 AM
 //	Authors: The Kumor
 // 
@@ -105,7 +105,9 @@ namespace grd
 
 			{0, -128}, {0, 128}, {128, 0}, {-128, 0},
 			{-128, 64}, {-64, 128}, {64, 128}, {128, 64},
-			{128, -64}, {64, -128}, {-128, -64}, {-64, -128}
+			{128, -64}, {64, -128}, {-128, -64}, {-64, -128},
+
+			{128, 128}, {-128, -128}, {128, -128}, {-128, 128}
 		};
 
 		auto it = Field::s_PlantedVegetables.find(pos);
@@ -191,10 +193,10 @@ namespace grd
 				cursorPos.y -= cursorPos.y % 64;
 
 				RECT paintRegion;
-				paintRegion.left = cursorPos.x - 128;
-				paintRegion.top = cursorPos.y - 128;
-				paintRegion.right = paintRegion.left + 320;
-				paintRegion.bottom = paintRegion.top + 320;
+				paintRegion.left = cursorPos.x - 192;
+				paintRegion.top = cursorPos.y - 192;
+				paintRegion.right = paintRegion.left + 448;
+				paintRegion.bottom = paintRegion.top + 448;
 
 				Vec2i cursorVec(cursorPos.x, cursorPos.y);
 

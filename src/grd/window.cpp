@@ -5,7 +5,7 @@
 //	File: src/grd/window.cpp
 //	Desc: Window class definition.
 // 
-//	Modified: 2026/02/25 10:12 AM
+//	Modified: 2026/02/25 2:01 PM
 //	Authors: The Kumor
 // 
 // ================================================
@@ -180,8 +180,34 @@ namespace grd
 
 			case WM_KEYDOWN:
 			{
-				Field::s_PlantedVegetables.clear();
-				InvalidateRect(handle, nullptr, TRUE);
+				if (wp == VK_ESCAPE)
+				{
+					Field::s_PlantedVegetables.clear();
+					InvalidateRect(handle, nullptr, TRUE);
+				}
+
+				Vec2i cameraMove(0, 0);
+				
+				if (wp == VK_LEFT)
+				{
+					cameraMove.x = 64;
+				}
+				if (wp == VK_RIGHT)
+				{
+					cameraMove.x = -64;
+				}
+				if (wp == VK_UP)
+				{
+					cameraMove.y = 64;
+				}
+				if (wp == VK_DOWN)
+				{
+					cameraMove.y = -64;
+				}
+
+				if (cameraMove == Vec2i(0, 0)) break;
+
+				g_EventDispatcher.CallEvent(Event(EventType::CameraMove, &cameraMove));
 			}
 		}
 
