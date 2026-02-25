@@ -5,7 +5,7 @@
 //	File: src/grd/file.cpp
 //	Desc: 
 // 
-//	Modified: 2026/02/25 11:29 AM
+//	Modified: 2026/02/25 8:39 PM
 //	Created: 2026/02/15 10:13 AM
 //	Authors: The Kumor
 // 
@@ -89,14 +89,17 @@ namespace grd
 			if (firstComma == std::string::npos || secondComma == std::string::npos)
 				continue;
 
-			std::int32_t x = std::stoi(str.substr(0, firstComma));
-			std::int32_t y = std::stoi(str.substr(firstComma + 1, secondComma - 1));
+			std::string strX = str.substr(0, firstComma);
+			std::string strY = str.substr(firstComma + 1, secondComma - firstComma - 1);
+			std::int32_t x = std::stoi(strX);
+			std::int32_t y = std::stoi(strY);
 			std::string name = str.substr(secondComma + 1);
 
 			Vec2i pos(x, y);
 			Vegetable* vegetable = GetGlobalVegetableByName(name);
-			
-			(*where)[pos] = VegetableContainer(vegetable);
+
+			if (vegetable)
+				(*where)[pos] = VegetableContainer(vegetable);
 		}
 	}
 

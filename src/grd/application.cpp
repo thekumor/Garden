@@ -5,7 +5,7 @@
 //	File: src/grd/application.cpp
 //	Desc: Application class definition.
 // 
-//	Modified: 2026/02/25 2:41 PM
+//	Modified: 2026/02/25 8:37 PM
 //	Authors: The Kumor
 // 
 // ================================================
@@ -120,7 +120,8 @@ namespace grd
 		{
 			if (k.Name.substr(0, 4) != "veg_") continue;
 
-			std::string vegetableCodeName = k.Name.substr(4, vegetableCodeName.size() - 4);
+			std::string vegetableCodeName = k.Name.substr(4, k.Name.size() - 4);
+			//std::string vegetableCodeName = k.Name.substr(4, vegetableCodeName.size() - 4);
 
 			std::vector<KeyTable>& veg = luaVegetables.emplace_back(g_Lua.GetTables(k.Name.c_str()));
 
