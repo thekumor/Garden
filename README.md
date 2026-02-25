@@ -13,8 +13,8 @@ to plant. Each plant has an image and name associated with them. Polish and Engl
 the supported languages. Once planted, field recalculates an area trying to find if plants 
 around like it.
 
-![Empty, starting field](images/github/start_screen.png)
-![Example garden](images/github/vegetable_system.png)
+![Empty, starting field](img/github/start_screen.png)
+![Example garden](img/github/vegetable_system.png)
 
 ## Features and Functionalities
 Application contains plant database. It allows resizing, saving and loading plant fields.
