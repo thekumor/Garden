@@ -5,7 +5,7 @@
 //	File: src/grd/field.h
 //	Desc: Field and the way it behaves.
 // 
-//	Modified: 2026/02/24 7:08 PM
+//	Modified: 2026/02/25 11:32 AM
 //	Created: 2026/02/20 10:42 AM
 //	Authors: The Kumor
 // 
@@ -92,7 +92,7 @@ namespace grd
 	std::unordered_map<Vec2i, VegetableContainer> Field::s_PlantedVegetables = {};
 	WNDCLASSEXW Field::s_FieldClass = { 0 };
 
-	static void CheckVegetableStatus(const Vec2i& pos, std::int32_t distance = 3)
+	void Field::s_CheckVegetableStatus(const Vec2i& pos, std::int32_t distance)
 	{
 		if (distance <= 0) return;
 
@@ -140,7 +140,7 @@ namespace grd
 			}
 
 			double len = neighborPos.Length(pos);
-			CheckVegetableStatus(neighborPos, distance - static_cast<std::int32_t>(len / 64));
+			Field::s_CheckVegetableStatus(neighborPos, distance - static_cast<std::int32_t>(len / 64));
 		}
 
 		if (seenBad)
@@ -149,6 +149,13 @@ namespace grd
 			itself.Status = VegetableStatus::Good;
 		else
 			itself.Status = VegetableStatus::Neutral;
+	}
+
+	void Field::s_CheckEntireField()
+	{
+		// This is quick and dirty, but will do.
+		for (auto& k : Field::s_PlantedVegetables)
+			Field::s_CheckVegetableStatus(k.first, 1);
 	}
 
 	LRESULT Field::s_WindowProcedure(HWND handle, UINT msg, WPARAM wp, LPARAM lp)
@@ -193,7 +200,7 @@ namespace grd
 
 				Field::s_PlantedVegetables[cursorVec] = VegetableContainer(g_CurrentVegetable);
 
-				CheckVegetableStatus(cursorVec);
+				Field::s_CheckVegetableStatus(cursorVec);
 
 				InvalidateRect(handle, &paintRegion, TRUE);
 			} break;
@@ -223,7 +230,7 @@ namespace grd
 				if (it == Field::s_PlantedVegetables.end()) break;
 
 				Field::s_PlantedVegetables[cursorVec].IsValid = false;
-				CheckVegetableStatus(cursorVec);
+				Field::s_CheckVegetableStatus(cursorVec);
 				Field::s_PlantedVegetables.erase(cursorVec);
 
 				InvalidateRect(handle, &paintRegion, TRUE);

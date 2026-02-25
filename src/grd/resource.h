@@ -1475,6 +1475,8 @@
 #define ID_APPLICATION_LANGUAGE         40008
 #define ID_LANGUAGE_ENGLISH             40009
 #define ID_LANGUAGE_POLSKI              40010
+#define ID_APPLICATION_OPEN             40011
+#define ID_APPLICATION_SAVE             40012
 #define SC_SIZE                         0xF000
 #define SC_SEPARATOR                    0xF00F
 #define SC_MOVE                         0xF010
@@ -1506,7 +1508,7 @@
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        104
-#define _APS_NEXT_COMMAND_VALUE         40011
+#define _APS_NEXT_COMMAND_VALUE         40013
 #define _APS_NEXT_CONTROL_VALUE         1000
 #define _APS_NEXT_SYMED_VALUE           101
 #endif

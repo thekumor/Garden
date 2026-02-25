@@ -5,7 +5,7 @@
 //	File: src/grd/field.h
 //	Desc: Field and the way it behaves.
 // 
-//	Modified: 2026/02/24 2:33 PM
+//	Modified: 2026/02/25 11:32 AM
 //	Created: 2026/02/20 10:35 AM
 //	Authors: The Kumor
 // 
@@ -44,6 +44,9 @@ namespace grd
 		static WNDCLASSEXW s_FieldClass;
 
 		static LRESULT s_WindowProcedure(HWND, UINT, WPARAM, LPARAM);
+
+		static void s_CheckVegetableStatus(const Vec2i& pos, std::int32_t distance = 3);
+		static void s_CheckEntireField();
 	};
 
 }

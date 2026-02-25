@@ -5,7 +5,7 @@
 //	File: src/grd/window.h
 //	Desc: Window class definition.
 // 
-//	Modified: 2026/02/24 3:36 PM
+//	Modified: 2026/02/25 10:38 AM
 //	Authors: The Kumor
 // 
 // ================================================
@@ -26,6 +26,7 @@
 #include <grd/events.h>
 #include <grd/resource.h>
 #include <grd/field.h>
+#include <grd/file.h>
 
 namespace grd
 {

@@ -5,7 +5,7 @@
 //	File: src/grd/window.cpp
 //	Desc: Window class definition.
 // 
-//	Modified: 2026/02/25 8:07 AM
+//	Modified: 2026/02/25 10:12 AM
 //	Authors: The Kumor
 // 
 // ================================================
@@ -132,6 +132,48 @@ namespace grd
 					case ID_LANGUAGE_ENGLISH:
 					{
 						g_EventDispatcher.CallEvent(Event(EventType::LanguageChanged, &wp));
+					} break;
+
+					case ID_APPLICATION_OPEN:
+					{
+						wchar_t path[MAX_PATH] = { 0 };
+
+						OPENFILENAME ofn = { 0 };
+						ofn.lStructSize = sizeof(ofn);
+						ofn.hwndOwner = handle;
+						ofn.nMaxFile = MAX_PATH;
+						ofn.lpstrFile = path;
+						ofn.lpstrFilter = L"Txt Files (*.txt)\0*.txt\0All Files (*.*)\0*.*\0";
+						ofn.lpstrFileTitle = nullptr;
+						ofn.nFilterIndex = 1;
+						ofn.Flags = OFN_EXPLORER | OFN_OVERWRITEPROMPT | OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
+						ofn.lpstrDefExt = L"txt";
+						if (!GetOpenFileName(&ofn)) break;
+
+						File f(ofn.lpstrFile, FileMode::Open);
+						f.ReadMap(&Field::s_PlantedVegetables);
+						Field::s_CheckEntireField();
+						InvalidateRect(handle, nullptr, TRUE);
+					} break;
+
+					case ID_APPLICATION_SAVE:
+					{
+						wchar_t path[MAX_PATH] = { 0 };
+
+						OPENFILENAME ofn = { 0 };
+						ofn.lStructSize = sizeof(ofn);
+						ofn.hwndOwner = handle;
+						ofn.nMaxFile = MAX_PATH;
+						ofn.lpstrFile = path;
+						ofn.lpstrFilter = L"Txt Files (*.txt)\0*.txt\0All Files (*.*)\0*.*\0";
+						ofn.lpstrFileTitle = nullptr;
+						ofn.nFilterIndex = 1;
+						ofn.Flags = OFN_EXPLORER | OFN_OVERWRITEPROMPT;
+						ofn.lpstrDefExt = L"bin";
+						if (!GetSaveFileName(&ofn)) break;
+
+						File f(ofn.lpstrFile, FileMode::Write);
+						f.WriteMap(Field::s_PlantedVegetables);
 					} break;
 				}
 			} break;

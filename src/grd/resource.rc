@@ -47,6 +47,8 @@ BEGIN
             MENUITEM "English",                     ID_LANGUAGE_ENGLISH
             MENUITEM "polski",                      ID_LANGUAGE_POLSKI
         END
+        MENUITEM "Open",                        ID_APPLICATION_OPEN
+        MENUITEM "Save",                        ID_APPLICATION_SAVE
         POPUP "Size", INACTIVE
         BEGIN
             MENUITEM "32x32",                       ID_SIZE_32X32
