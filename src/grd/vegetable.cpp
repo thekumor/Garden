@@ -85,4 +85,19 @@ namespace grd
 		return nullptr;
 	}
 
+	VegetableContainer::VegetableContainer(Vegetable* veg)
+		: Veg(veg), Status(VegetableStatus::Neutral), IsValid(true)
+	{
+		
+	}
+
+	VegetableContainer::VegetableContainer()
+		: Status(VegetableStatus::Neutral), IsValid(true)
+	{}
+
+	bool VegetableContainer::operator==(const VegetableContainer& other) const
+	{
+		return Veg == other.Veg;
+	}
+
 }

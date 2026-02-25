@@ -5,7 +5,7 @@
 //	File: src/grd/field.h
 //	Desc: Field and the way it behaves.
 // 
-//	Modified: 2026/02/24 1:09 PM
+//	Modified: 2026/02/24 7:08 PM
 //	Created: 2026/02/20 10:42 AM
 //	Authors: The Kumor
 // 
@@ -16,39 +16,25 @@
 namespace grd
 {
 
-	static std::unordered_map<Vec2i, Vegetable*> s_PlantedVegetables = {};
-
 	static void PaintField(HWND handle, HDC hdc)
 	{
 		static HBRUSH s_LikesBackground = CreateSolidBrush(RGB(0, 255, 0));
 		static HBRUSH s_HatesBackground = CreateSolidBrush(RGB(255, 0, 0));
 		static HBRUSH s_NeutralBackground = CreateSolidBrush(RGB(0, 120, 0));
 
-		for (auto& plantedVeg : s_PlantedVegetables)
+		for (auto& plantedVeg : Field::s_PlantedVegetables)
 		{
 			Vec2i position = plantedVeg.first;
-			Vegetable* vegetable = plantedVeg.second;
+			VegetableContainer vegetable = plantedVeg.second;
 
 			HBRUSH* chosenBrush = &s_NeutralBackground;
 
-			for (auto& neighbourVeg : s_PlantedVegetables)
-			{
-				if (neighbourVeg == plantedVeg) continue;
+			if (vegetable.Status == VegetableStatus::Bad)
+				chosenBrush = &s_HatesBackground;
+			else if (vegetable.Status == VegetableStatus::Good)
+				chosenBrush = &s_LikesBackground;
 
-				Vec2i neighbourPosition = neighbourVeg.first;
-
-				if (neighbourPosition.Length(position) > 128) continue;
-
-				Vegetable* neighbourVegetable = neighbourVeg.second;
-				// Check if they like each other and mark colors
-
-				if (neighbourVegetable->DoesLike(vegetable->GetName()) || vegetable->DoesLike(neighbourVegetable->GetName()))
-					chosenBrush = &s_LikesBackground;
-				else if (neighbourVegetable->DoesHate(vegetable->GetName()) || vegetable->DoesHate(neighbourVegetable->GetName()))
-					chosenBrush = &s_HatesBackground;
-			}
-
-			ImageRect imageRect = vegetable->GetRect();
+			ImageRect imageRect = vegetable.Veg->GetRect();
 
 			BITMAPINFO bmi = { 0 };
 			bmi.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
@@ -103,7 +89,67 @@ namespace grd
 		}
 	}
 
+	std::unordered_map<Vec2i, VegetableContainer> Field::s_PlantedVegetables = {};
 	WNDCLASSEXW Field::s_FieldClass = { 0 };
+
+	static void CheckVegetableStatus(const Vec2i& pos, std::int32_t distance = 3)
+	{
+		if (distance <= 0) return;
+
+		VegetableContainer& container = Field::s_PlantedVegetables[pos];
+
+		const Vec2i offsets[] = {
+			{-64, -64}, {0, -64}, {64, -64},
+			{-64, 0}, {64, 0},
+			{-64, 64}, {0, 64}, {64, 64},
+
+			{0, -128}, {0, 128}, {128, 0}, {-128, 0},
+			{-128, 64}, {-64, 128}, {64, 128}, {128, 64},
+			{128, -64}, {64, -128}, {-128, -64}, {-64, -128}
+		};
+
+		auto it = Field::s_PlantedVegetables.find(pos);
+		if (it == Field::s_PlantedVegetables.end())
+			return;
+
+		VegetableContainer& itself = it->second;
+		Vegetable* veg = itself.Veg;
+
+		bool seenGood = false;
+		bool seenBad = false;
+
+		for (const Vec2i& offset : offsets)
+		{
+			Vec2i neighborPos = pos + offset;
+			auto nit = Field::s_PlantedVegetables.find(neighborPos);
+			if (nit == Field::s_PlantedVegetables.end())
+				continue;
+
+			Vegetable* neighbor = nit->second.Veg;
+
+			if (nit->second.IsValid && it->second.IsValid)
+			{
+				if (veg->DoesHate(neighbor->GetName()) || neighbor->DoesHate(veg->GetName()))
+				{
+					seenBad = true;
+				}
+				else if (veg->DoesLike(neighbor->GetName()) || neighbor->DoesLike(veg->GetName()))
+				{
+					seenGood = true;
+				}
+			}
+
+			double len = neighborPos.Length(pos);
+			CheckVegetableStatus(neighborPos, distance - static_cast<std::int32_t>(len / 64));
+		}
+
+		if (seenBad)
+			itself.Status = VegetableStatus::Bad;
+		else if (seenGood)
+			itself.Status = VegetableStatus::Good;
+		else
+			itself.Status = VegetableStatus::Neutral;
+	}
 
 	LRESULT Field::s_WindowProcedure(HWND handle, UINT msg, WPARAM wp, LPARAM lp)
 	{
@@ -145,7 +191,41 @@ namespace grd
 
 				Vec2i cursorVec(cursorPos.x, cursorPos.y);
 
-				s_PlantedVegetables[cursorVec] = g_CurrentVegetable;
+				Field::s_PlantedVegetables[cursorVec] = VegetableContainer(g_CurrentVegetable);
+
+				CheckVegetableStatus(cursorVec);
+
+				InvalidateRect(handle, &paintRegion, TRUE);
+			} break;
+
+			case WM_RBUTTONDOWN:
+			{
+				RECT rc;
+				POINT cursorPos;
+				GetCursorPos(&cursorPos);
+				GetWindowRect(handle, &rc);
+
+				cursorPos.x -= rc.left;
+				cursorPos.y -= rc.top;
+
+				cursorPos.x -= cursorPos.x % 64;
+				cursorPos.y -= cursorPos.y % 64;
+
+				RECT paintRegion;
+				paintRegion.left = cursorPos.x - 128;
+				paintRegion.top = cursorPos.y - 128;
+				paintRegion.right = paintRegion.left + 320;
+				paintRegion.bottom = paintRegion.top + 320;
+
+				Vec2i cursorVec(cursorPos.x, cursorPos.y);
+
+				std::unordered_map<Vec2i, VegetableContainer>::iterator it = Field::s_PlantedVegetables.find(cursorVec);
+				if (it == Field::s_PlantedVegetables.end()) break;
+
+				Field::s_PlantedVegetables[cursorVec].IsValid = false;
+				CheckVegetableStatus(cursorVec);
+				Field::s_PlantedVegetables.erase(cursorVec);
+
 				InvalidateRect(handle, &paintRegion, TRUE);
 			} break;
 		}

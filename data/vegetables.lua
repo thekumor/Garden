@@ -5,13 +5,13 @@
 --	File: data/vegetables.lua
 --	Desc: Defines vegetable properties
 -- 
---	Modified: 2026/02/24 12:48 PM
+--	Modified: 2026/02/25 7:49 AM
 --	Created: 2026/01/08 8:25 PM
 --	Authors: The Kumor
 -- 
 -- ================================================
 
-rect_size = { 260, 260 }
+def_lang = "en"
 
 -- PL: Marchewka
 veg_carrot = {

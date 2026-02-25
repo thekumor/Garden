@@ -5,7 +5,7 @@
 //	File: src/grd/vegetable.h
 //	Desc: 
 // 
-//	Modified: 2026/02/24 10:11 AM
+//	Modified: 2026/02/24 3:43 PM
 //	Created: 2026/02/24 9:26 AM
 //	Authors: The Kumor
 // 
@@ -45,6 +45,26 @@ namespace grd
 		std::string m_Name;
 		std::vector<std::string> m_Likes, m_Hates;
 		ImageRect m_ImageRect;
+	};
+
+	enum class VegetableStatus
+	{
+		Neutral = 0,
+		Good,
+		Bad
+	};
+
+	struct VegetableContainer
+	{
+		VegetableContainer(Vegetable* veg);
+		VegetableContainer();
+		~VegetableContainer() = default;
+
+		bool operator==(const VegetableContainer& other) const;
+
+		Vegetable* Veg;
+		VegetableStatus Status;
+		bool IsValid;
 	};
 
 	extern std::vector<Vegetable> g_Vegetables;

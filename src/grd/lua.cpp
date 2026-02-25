@@ -5,7 +5,7 @@
 //	File: src/grd/lua.cpp
 //	Desc: Lua bindings for Garden.
 // 
-//	Modified: 2026/02/23 8:55 AM
+//	Modified: 2026/02/25 9:30 AM
 //	Created: 2026/02/10 6:31 PM
 //	Authors: The Kumor
 // 
@@ -88,7 +88,11 @@ namespace grd
 		std::vector<LuaVariable> variables;
 
 		lua_getglobal(m_State, name);
-		if (!lua_istable(m_State, -1)) return {};
+		if (!lua_istable(m_State, -1))
+		{
+			lua_pop(m_State, 1);
+			return {};
+		}
 
 		lua_pushnil(m_State);
 		std::int32_t i = 1;
@@ -124,7 +128,11 @@ namespace grd
 		std::vector<KeyTable> keyTables;
 
 		lua_getglobal(m_State, name);
-		if (!lua_istable(m_State, -1)) return {};
+		if (!lua_istable(m_State, -1))
+		{
+			lua_pop(m_State, 1);
+			return {};
+		}
 
 		lua_pushnil(m_State);
 
@@ -173,6 +181,34 @@ namespace grd
 		m_CachedComplexTables[name] = keyTables;
 #endif
 		return keyTables;
+	}
+
+	LuaVariable Lua::GetTableValue(const char* name, const char* key)
+	{
+		lua_getglobal(m_State, name);
+		if (!lua_istable(m_State, -1))
+		{
+			lua_pop(m_State, -1);
+			return GetNil();
+		}
+
+		lua_getfield(m_State, -1, key);
+		
+		LuaVariable var;
+		CheckVariable(var, -1);
+
+		lua_pop(m_State, 1);
+		return var;
+	}
+
+	LuaVariable Lua::GetNil()
+	{
+		lua_pushnil(m_State);
+		LuaVariable v;
+		CheckVariable(v, -1);
+
+		lua_pop(m_State, 1);
+		return v;
 	}
 
 #if GRD_LUA_ENABLE_CACHE

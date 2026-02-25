@@ -5,7 +5,7 @@
 //	File: src/grd/controls.h
 //	Desc: GUI Control class definitions
 // 
-//	Modified: 2026/02/24 9:01 AM
+//	Modified: 2026/02/25 8:08 AM
 //	Authors: The Kumor
 // 
 // ================================================
@@ -48,7 +48,10 @@ namespace grd
 		inline std::vector<Control*>& GetControls() { return m_Controls; }
 		inline Vec2i GetSize() const { return m_Size; }
 		inline Vec2i GetPosition() const { return m_Position; }
+		inline std::string GetTag() const { return m_Tag; }
 		void SetSize(const Vec2i& size);
+		void SetTag(const std::string& tag);
+		void SetText(const std::wstring& text);
 		void SetPosition(const Vec2i& position);
 		void Resize(const Vec2<float> delta);
 		void Reposition(const Vec2<float> delta);
@@ -59,6 +62,7 @@ namespace grd
 		std::vector<Control*> m_Controls = { };
 		HWND m_Handle, m_Parent;
 		std::wstring m_Text;
+		std::string m_Tag;
 		Vec2i m_Size, m_Position;
 	};
 

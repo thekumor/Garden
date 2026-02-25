@@ -5,7 +5,7 @@
 //	File: src/grd/controls.cpp
 //	Desc: GUI Control class definitions
 // 
-//	Modified: 2026/02/24 9:03 AM
+//	Modified: 2026/02/25 8:08 AM
 //	Authors: The Kumor
 // 
 // ================================================
@@ -16,11 +16,11 @@ namespace grd
 {
 
 	Control::Control(const std::wstring& text, const Vec2i& size, const Vec2i& position)
-		: m_Text(text), m_Size(size), m_Position(position), m_Parent(nullptr), m_Handle(nullptr)
+		: m_Text(text), m_Size(size), m_Position(position), m_Parent(nullptr), m_Handle(nullptr), m_Tag("")
 	{}
 
 	Control::Control()
-		: m_Text(L""), m_Size(0, 0), m_Position(0, 0), m_Parent(nullptr), m_Handle(nullptr)
+		: m_Text(L""), m_Size(0, 0), m_Position(0, 0), m_Parent(nullptr), m_Handle(nullptr), m_Tag("")
 	{}
 
 	LRESULT Control::s_WindowProcedure(HWND handle, UINT msg, WPARAM wp, LPARAM lp)
@@ -29,7 +29,12 @@ namespace grd
 		{
 			case WM_LBUTTONDOWN:
 			{
-				g_EventDispatcher.CallEventQ(Event(EventType::MousePressed, nullptr), handle);
+				g_EventDispatcher.CallEventQ(Event(EventType::MouseLeft, nullptr), handle);
+			} break;
+
+			case WM_RBUTTONDOWN:
+			{
+				g_EventDispatcher.CallEventQ(Event(EventType::MouseRight, nullptr), handle);
 			} break;
 		}
 
@@ -41,6 +46,17 @@ namespace grd
 		m_Size = size;
 		if (m_Handle)
 			SetWindowPos(m_Handle, nullptr, 0, 0, size.x, size.y, SWP_NOMOVE | SWP_NOZORDER);
+	}
+
+	void Control::SetTag(const std::string& tag)
+	{
+		m_Tag = tag;
+	}
+
+	void Control::SetText(const std::wstring& text)
+	{
+		SetWindowTextW(m_Handle, text.c_str());
+		InvalidateRect(m_Handle, nullptr, TRUE);
 	}
 
 	void Control::SetPosition(const Vec2i& position)

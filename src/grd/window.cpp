@@ -5,7 +5,7 @@
 //	File: src/grd/window.cpp
 //	Desc: Window class definition.
 // 
-//	Modified: 2026/02/21 6:34 PM
+//	Modified: 2026/02/25 8:07 AM
 //	Authors: The Kumor
 // 
 // ================================================
@@ -123,8 +123,24 @@ namespace grd
 					{
 						g_EventDispatcher.CallEvent(Event(EventType::GridSizeChanged, &wp));
 					} break;
+
+					case ID_LANGUAGE_POLSKI:
+					{
+						g_EventDispatcher.CallEvent(Event(EventType::LanguageChanged, &wp));
+					} break;
+
+					case ID_LANGUAGE_ENGLISH:
+					{
+						g_EventDispatcher.CallEvent(Event(EventType::LanguageChanged, &wp));
+					} break;
 				}
 			} break;
+
+			case WM_KEYDOWN:
+			{
+				Field::s_PlantedVegetables.clear();
+				InvalidateRect(handle, nullptr, TRUE);
+			}
 		}
 
 		return DefWindowProc(handle, msg, wp, lp);

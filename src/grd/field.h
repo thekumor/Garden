@@ -40,6 +40,7 @@ namespace grd
 		Field() = default;
 		~Field() = default;
 
+		static std::unordered_map<Vec2i, VegetableContainer> s_PlantedVegetables;
 		static WNDCLASSEXW s_FieldClass;
 
 		static LRESULT s_WindowProcedure(HWND, UINT, WPARAM, LPARAM);

@@ -5,7 +5,7 @@
 //	File: src/grd/util.h
 //	Desc: Utility functions and structures.
 // 
-//	Modified: 2026/02/24 2:27 PM
+//	Modified: 2026/02/24 5:21 PM
 //	Authors: The Kumor
 // 
 // ================================================
@@ -85,7 +85,7 @@ namespace grd
 			return v1.x == v2.x && v1.y == v2.y;
 		}
 
-		double Length(const Vec2<T>& other)
+		double Length(const Vec2<T>& other) const
 		{
 			return abs(sqrt(pow(x - other.x, 2) + pow(y - other.y, 2)));
 		}

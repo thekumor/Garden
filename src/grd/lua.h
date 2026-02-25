@@ -5,7 +5,7 @@
 //	File: src/grd/lua.h
 //	Desc: Lua bindings for Garden.
 // 
-//	Modified: 2026/02/23 8:55 AM
+//	Modified: 2026/02/25 9:30 AM
 //	Created: 2026/02/10 6:29 PM
 //	Authors: The Kumor
 // 
@@ -81,6 +81,8 @@ namespace grd
 		std::vector<LuaVariable> GetTable(const char* name);
 		std::vector<LuaVariable> GetGlobalVariables();
 		std::vector<KeyTable> GetTables(const char* name);
+		LuaVariable GetTableValue(const char* name, const char* key);
+		LuaVariable GetNil();
 #if GRD_LUA_ENABLE_CACHE
 		const std::vector<KeyTable>* GetCachedComplexTable(const std::string& name) const;
 		const std::vector<LuaVariable>* GetCachedTable(const std::string& name) const;
