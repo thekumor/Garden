@@ -17,7 +17,7 @@ around like it.
 ![Example garden](img/github/vegetable_system.png)
 
 ## Features and Functionalities
-Application contains plant database. It allows resizing, saving and loading plant fields.
+Application contains plant database. App allows resizing, saving and loading plant fields.
 
 ## Software & Hardware Requirements
 Insanely low, anyone with potato PC can run it. There’s a caveat though: it only runs under
